@@ -154,61 +154,72 @@ function App() {
 
 /**
  * PUBLIC_INTERFACE
- * Five visually distinct, cleanly stacked sections each with prominent heading and short value statement.
- * Each section is styled to be a clear entry point and responsive.
+ * Stacked sections to introduce features interactively; clicking a CTA navigates to the embedded component.
  */
-function FeaturesStackedSections() {
+function FeaturesStackedSections({ setActiveFeature }) {
   // Section content definition
   const sections = [
+    {
+      key: 'lawyer',
+      icon: '🔍',
+      heading: 'Instant Lawyer Match',
+      desc:
+        "Describe your legal problem and get instantly matched with lawyers best suited for your issue, urgency, and budget.",
+      bgClass: '',
+      buttonText: 'Find a Lawyer',
+    },
     {
       key: 'docs',
       icon: '📄',
       heading: 'Legal Document Generator',
       desc:
-        "Instantly generate essential documents like affidavits, rental agreements, and NDAs using guided, lawyer-verified templates. Download ready-to-use PDFs customized for the Indian legal system.",
+        "Instantly generate essential documents using guided, lawyer-verified templates customized for India.",
       bgClass: 'feature-section-legal-docs',
-      onClick: undefined,
-      cta: false,
+      buttonText: 'Create a Document',
     },
     {
       key: 'cases',
       icon: '🗂️',
       heading: 'Case Tracker',
       desc:
-        "Monitor all your engaged legal cases in one timeline view. Get real-time updates on your case status, upcoming court dates, and important milestones, so you’re always informed.",
+        "Monitor your engaged legal cases in a timeline with notifications and milestone tracking.",
       bgClass: 'feature-section-case-tracker',
-      onClick: undefined,
-      cta: false,
+      buttonText: 'Track My Cases',
     },
     {
       key: 'video',
       icon: '🎥',
       heading: 'Video Consultation Booking',
       desc:
-        "Book secure, confidential video appointments with verified legal experts. Choose your slot, connect over encrypted calls, and get the legal help you need—anywhere, anytime.",
+        "Book video meetings with legal experts at your convenience. Get confidential legal advice via integrated video platforms.",
       bgClass: 'feature-section-video-booking',
-      onClick: undefined,
-      cta: false,
+      buttonText: 'Book Consultation',
     },
     {
       key: 'rights',
       icon: '⚖️',
       heading: 'Know Your Rights',
       desc:
-        "Empower yourself with plain-English guides explaining Indian laws—property, consumer, marriage, and more. Designed for accessibility, clarity, and available in English or Hindi.",
+        "Explore plain-English guides to Indian law—property, consumer, family, cyber, and more.",
       bgClass: 'feature-section-know-rights',
-      onClick: undefined,
-      cta: false,
+      buttonText: 'Explore Rights',
     },
     {
       key: 'qa',
       icon: '💬',
-      heading: 'Anonymous Q&amp;A',
+      heading: 'Anonymous Q&A',
       desc:
-        "Ask basic legal questions anonymously—no login required. Receive expert answers from verified lawyers and search or browse public queries for quick help.",
+        "Ask your legal questions anonymously and get answers from verified lawyers. Search public Q&A for quick help.",
       bgClass: 'feature-section-anon-qa',
-      onClick: undefined,
-      cta: false,
+      buttonText: 'Ask a Question',
+    },
+    {
+      key: 'signin',
+      icon: '👤',
+      heading: 'Sign-In',
+      desc: "Sign in to access features like case tracking, booking, and download history.",
+      bgClass: '',
+      buttonText: 'Sign In',
     },
   ];
   return (
@@ -216,7 +227,7 @@ function FeaturesStackedSections() {
       {sections.map((s, idx) => (
         <section
           tabIndex={-1}
-          className={`stacked-feature-section ${s.bgClass}${idx > 0 ? ' section-with-border' : ''}`}
+          className={`stacked-feature-section ${s.bgClass || ''}${idx > 0 ? ' section-with-border' : ''}`}
           aria-label={s.heading}
           key={s.key}
         >
@@ -227,6 +238,13 @@ function FeaturesStackedSections() {
               className="stacked-feature-desc"
               dangerouslySetInnerHTML={{ __html: s.desc }}
             />
+            <button
+              className="btn btn-accent btn-large"
+              tabIndex={0}
+              onClick={() => setActiveFeature(s.key)}
+              style={{marginTop: '18px'}}
+              type="button"
+            >{s.buttonText}</button>
           </div>
         </section>
       ))}
