@@ -48,13 +48,13 @@ function App() {
         <button
           className="brand-logo"
           tabIndex={0}
-          aria-label="LegalConnect India Home"
+          aria-label="Indian Law Mate Home"
           onClick={() => setActiveFeature('home')}
           onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setActiveFeature('home'); }}
           style={{ background: "none", border: "none" }}
         >
           <span className="logo-symbol" aria-hidden="true">⚖️</span>
-          <span className="brand-name">LegalConnect <span className="brand-name-secondary">India</span></span>
+          <span className="brand-name">Indian <span className="brand-name-secondary">Law Mate</span></span>
         </button>
       </div>
 
@@ -85,7 +85,7 @@ function App() {
       <section className="hero-top" tabIndex={-1} aria-label="Legal Services Hero Banner">
         <div className="hero-top-blur" aria-hidden="true" />
         <div className="hero-top-content">
-          <h1 className="hero-top-title">India's Trusted Legal Platform</h1>
+          <h1 className="hero-top-title">Indian Law Mate – Your Trusted Legal Platform</h1>
           <div className="hero-top-subtitle">Expert guidance. Instant solutions. Confidential &amp; accessible for all.</div>
         </div>
       </section>
@@ -208,7 +208,7 @@ function FeatureHighlights() {
 
   return (
     <section className="features-section" aria-label="Main Platform Features" tabIndex={-1}>
-      <h3 className="features-section-heading" style={{textAlign:"center", marginBottom:10, color:"var(--navy)", fontFamily:"var(--font-heading)", fontWeight:700}}>Why Choose LegalConnect India?</h3>
+      <h3 className="features-section-heading" style={{textAlign:"center", marginBottom:10, color:"var(--navy)", fontFamily:"var(--font-heading)", fontWeight:700}}>Why Choose Indian Law Mate?</h3>
       <div className="features-grid">
         {features.map((f, idx) => (
           <div className="feature-card" key={f.title}>
