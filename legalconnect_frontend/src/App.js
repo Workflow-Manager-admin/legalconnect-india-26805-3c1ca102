@@ -123,29 +123,46 @@ function InstantLawyerMatchPlaceholder() {
       <div className="description" style={{ marginBottom: 30 }}>
         Tell us about your legal issue and we'll match you with the right lawyer. Transparent, fast, and confidential.
       </div>
-      {/* Mock form for visual layout */}
+      {/* Instant Lawyer Match - improved stack form, spaced & animated */}
       <form
-        className="container"
-        style={{ maxWidth: 420, margin: "0 auto", background: "var(--soft-white, #F5F5F5)" }}
+        className="container instant-lawyer-form fade-in-section"
         aria-label="Instant Lawyer Match Form"
         tabIndex={0}
+        autoComplete="off"
       >
-        <label htmlFor="issue" style={{ fontWeight: 500 }}>Legal Issue<span style={{ color: 'var(--gold)' }}> *</span></label>
-        <input id="issue" name="issue" type="text" placeholder="Your issue (e.g. Rental dispute, Cheque bounce...)" required />
-        <label htmlFor="urgency" style={{ fontWeight: 500 }}>Urgency</label>
-        <select id="urgency" name="urgency" defaultValue="normal">
-          <option value="normal">Normal</option>
-          <option value="urgent">Urgent</option>
-          <option value="just-inquiry">Just Inquiry</option>
-        </select>
-        <label htmlFor="budget" style={{ fontWeight: 500 }}>Budget Preference</label>
-        <select id="budget" name="budget" defaultValue="">
-          <option value="">No Preference</option>
-          <option value="basic">Basic (&lt;₹5000)</option>
-          <option value="mid">Standard (₹5000-₹20,000)</option>
-          <option value="premium">Premium (&gt;₹20,000)</option>
-        </select>
-        <button className="btn btn-accent btn-large" type="submit" disabled>Match Me (Stub)</button>
+        <div className="form-group">
+          <label htmlFor="issue">
+            Legal Issue<span style={{ color: 'var(--gold)' }}> *</span>
+          </label>
+          <input
+            id="issue"
+            name="issue"
+            type="text"
+            placeholder="Your issue (e.g. Rental dispute, Cheque bounce...)"
+            required
+            autoComplete="off"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="urgency">Urgency</label>
+          <select id="urgency" name="urgency" defaultValue="normal">
+            <option value="normal">Normal</option>
+            <option value="urgent">Urgent</option>
+            <option value="just-inquiry">Just Inquiry</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="budget">Budget Preference</label>
+          <select id="budget" name="budget" defaultValue="">
+            <option value="">No Preference</option>
+            <option value="basic">Basic (&lt;₹5000)</option>
+            <option value="mid">Standard (₹5000-₹20,000)</option>
+            <option value="premium">Premium (&gt;₹20,000)</option>
+          </select>
+        </div>
+        <button className="btn btn-accent btn-large fade-in-btn" type="submit" disabled>
+          Match Me (Stub)
+        </button>
       </form>
       <div style={{ marginTop: 38, textAlign: "left", width: "100%", maxWidth: 540 }}>
         <FeatureHighlights />
