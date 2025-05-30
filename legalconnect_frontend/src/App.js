@@ -687,18 +687,175 @@ function KnowYourRightsSection() {
   );
 }
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * Anonymous Q&A Forum: Submit questions, view/sample answers, search list.
+ */
 function AnonymousQnASection() {
+  const [questions, setQuestions] = useState([
+    {
+      q: "Can my landlord increase rent arbitrarily?",
+      a: "No. In India, rent increases should follow state rent control laws or the signed rental agreement. Normally, 10% yearly increase is reasonable.",
+      id: 0
+    },
+    {
+      q: "Is WhatsApp chat valid as legal evidence?",
+      a: "Yes, electronic messages are accepted as secondary evidence under the Indian Evidence Act with proper authentication.",
+      id: 1
+    }
+  ]);
+  const [search, setSearch] = useState("");
+  const [newQ, setNewQ] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  // PUBLIC_INTERFACE
+  function submitQ(e) {
+    e.preventDefault();
+    if (!newQ.trim()) return;
+    setQuestions(qs =>
+      [...qs, { q: newQ, a: "Awaiting lawyer response...", id: qs.length }]
+    );
+    setSubmitted(true);
+    setNewQ("");
+    setTimeout(() => setSubmitted(false), 1800);
+  }
+
+  // PUBLIC_INTERFACE
+  function filtered() {
+    if (!search) return questions;
+    return questions.filter(q =>
+      q.q.toLowerCase().includes(search.toLowerCase()) ||
+      q.a.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+
   return (
-    <section tabIndex={-1} className="stacked-feature-section feature-section-anon-qa">
+    <section tabIndex={-1} className="stacked-feature-section feature-section-anon-qa" aria-label="Anonymous Q&A">
       <div className="stacked-feature-inner">
         <span className="stacked-feature-icon" aria-hidden="true">💬</span>
         <h2 className="stacked-feature-heading">Anonymous Q&amp;A</h2>
-        <div className="stacked-feature-desc">
-          Post your legal query anonymously or browse the Q&amp;A bank.<br /><br />
-          <em>Forum feature will be enabled soon.</em>
+        <div className="stacked-feature-desc" style={{marginBottom:8}}>
+          Post your legal question anonymously, view answers, or search previous Q&amp;A.
         </div>
-        <button className="btn btn-accent btn-large" disabled>Ask A Question (Stub)</button>
+        <form onSubmit={submitQ} className="instant-lawyer-form" style={{marginBottom: "1em"}}>
+          <label htmlFor="newQ" style={{fontWeight:600,marginBottom: 2}}>Ask a Question</label>
+          <input
+            id="newQ"
+            name="newQ"
+            value={newQ}
+            onChange={e => setNewQ(e.target.value)}
+            type="text"
+            placeholder="Type your question—no name required"
+            style={{marginBottom:2}}
+          />
+          <button className="btn btn-accent btn-large" type="submit" style={{marginTop:2}}>Submit</button>
+          {submitted && <span style={{marginLeft:12, color: "#4CAF50"}}>Submitted!</span>}
+        </form>
+        <div>
+          <label htmlFor="searchQ" style={{ fontWeight: 600, marginBottom: 4 }}>Search Q&amp;A</label>
+          <input
+            id="searchQ"
+            name="searchQ"
+            type="text"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Search questions &amp; answers"
+            style={{ width: "100%", marginBottom: 12 }}
+          />
+        </div>
+        <ul style={{ listStyle: "none", padding: 0 }}>
+          {filtered().length === 0 ? (
+            <li style={{ color: "#b50a46", margin: "1em 0" }}>No questions found.</li>
+          ) : (
+            filtered().slice().reverse().map(q => (
+              <li
+                key={q.id}
+                style={{
+                  marginBottom: 12,
+                  background: "#FFF2F5",
+                  border: "1.7px solid #b50a46",
+                  borderRadius: 7,
+                  padding: "10px 14px"
+                }}
+              >
+                <strong>Q:</strong> {q.q}
+                <br />
+                <strong>A:</strong> {q.a}
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * PUBLIC_INTERFACE
+ * Sign-In: Interactive form, live validation, demo "sign in" with state change.
+ */
+function SignInSection({ onSignIn }) {
+  const [vals, setVals] = useState({ name: "", address: "", phone: "", email: "" });
+  const [errors, setErrors] = useState({});
+  const [tried, setTried] = useState(false);
+
+  // PUBLIC_INTERFACE
+  function handleChange(e) {
+    setVals({ ...vals, [e.target.name]: e.target.value });
+  }
+
+  // PUBLIC_INTERFACE
+  function validate() {
+    const e = {};
+    if (!vals.name) e.name = "Required";
+    if (!vals.address) e.address = "Required";
+    if (!vals.phone.match(/^[6-9][0-9]{9}$/)) e.phone = "10-digit mobile, Indian pattern";
+    if (!vals.email.match(/^[^@]+@[^@]+\.[^@]+$/)) e.email = "Invalid email";
+    return e;
+  }
+
+  // PUBLIC_INTERFACE
+  function handleSubmit(ev) {
+    ev.preventDefault();
+    setTried(true);
+    const errs = validate();
+    setErrors(errs);
+    if (Object.keys(errs).length === 0) {
+      onSignIn({ ...vals });
+    }
+  }
+
+  return (
+    <section tabIndex={-1} className="stacked-feature-section" aria-label="Sign-In">
+      <div className="stacked-feature-inner">
+        <span className="stacked-feature-icon" aria-hidden="true">👤</span>
+        <h2 className="stacked-feature-heading">Sign-In</h2>
+        <div className="stacked-feature-desc" style={{marginBottom:8}}>
+          Sign in/register with your details for tailored features (case &amp; video tracking, downloads, and more).
+        </div>
+        <form className="instant-lawyer-form" style={{maxWidth: 400}} onSubmit={handleSubmit} autoComplete="off">
+          <div className="form-group">
+            <label htmlFor="name">Name<span style={{color: "#b50a46"}}>*</span></label>
+            <input id="name" name="name" value={vals.name} onChange={handleChange} required />
+            {tried && errors.name && <div style={{color:"#b50a46", fontSize: ".91em"}}>{errors.name}</div>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="address">Address<span style={{color: "#b50a46"}}>*</span></label>
+            <input id="address" name="address" value={vals.address} onChange={handleChange} required />
+            {tried && errors.address && <div style={{color:"#b50a46", fontSize: ".91em"}}>{errors.address}</div>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="phone">Mobile Number<span style={{color: "#b50a46"}}>*</span></label>
+            <input id="phone" name="phone" value={vals.phone} onChange={handleChange} required maxLength={10} minLength={10} placeholder="e.g. 9123456789"/>
+            {tried && errors.phone && <div style={{color:"#b50a46", fontSize: ".91em"}}>{errors.phone}</div>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email<span style={{color: "#b50a46"}}>*</span></label>
+            <input id="email" name="email" value={vals.email} onChange={handleChange} required type="email" />
+            {tried && errors.email && <div style={{color:"#b50a46", fontSize: ".91em"}}>{errors.email}</div>}
+          </div>
+          <button style={{marginTop: 7}} className="btn btn-accent btn-large" type="submit">Sign In</button>
+        </form>
       </div>
     </section>
   );
