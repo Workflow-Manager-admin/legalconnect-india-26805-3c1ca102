@@ -4,21 +4,28 @@ import './App.css';
 // NAVIGATION LINKS CONFIG
 const navLinks = [
   { key: 'home', label: 'Home' },
+  { key: 'lawyer', label: 'Instant Lawyer Match' },
   { key: 'docs', label: 'Legal Docs Generator' },
   { key: 'cases', label: 'Case Tracker' },
   { key: 'video', label: 'Video Consultation Booking' },
-  { key: 'rights', label: 'Know your Rights' },
-  { key: 'qa', label: 'Anonymous Q&A' }
+  { key: 'rights', label: 'Know Your Rights' },
+  { key: 'qa', label: 'Anonymous Q&A' },
+  { key: 'signin', label: 'Sign-In' }
 ];
 
 // PUBLIC_INTERFACE
 function App() {
   // Controls which feature to show in the main content
   const [activeFeature, setActiveFeature] = useState('home');
+  const [signedInUser, setSignedInUser] = useState(null);
 
   // PUBLIC_INTERFACE
   function renderMainContent() {
     switch (activeFeature) {
+      case 'lawyer':
+        return (
+          <InstantLawyerMatchSection />
+        );
       case 'docs':
         return <LegalDocsSection />;
       case 'cases':
@@ -29,21 +36,49 @@ function App() {
         return <KnowYourRightsSection />;
       case 'qa':
         return <AnonymousQnASection />;
+      case 'signin':
+        return (
+          <SignInSection
+            onSignIn={user => {
+              setSignedInUser(user);
+              setActiveFeature('home');
+            }}
+          />
+        );
       default:
-        return <FeaturesStackedSections />;
+        return <FeaturesStackedSections setActiveFeature={setActiveFeature} />;
     }
   }
 
   // PUBLIC_INTERFACE
   return (
     <div className="app">
-
       {/* Top Bar: Sign In/Sign Up at top right */}
       <div className="topbar-auth">
         <div className="topbar-spacer" />
         <div className="topbar-auth-actions">
-          <button className="signin-btn" type="button" aria-label="Sign In" tabIndex={0}>Sign In</button>
-          <button className="signup-link" type="button" aria-label="Sign Up" tabIndex={0}>Sign Up</button>
+          {signedInUser ? (
+            <span>
+              Welcome, {signedInUser.name}
+              <button
+                className="signin-btn"
+                type="button"
+                aria-label="Sign Out"
+                tabIndex={0}
+                style={{marginLeft: 18}}
+                onClick={() => setSignedInUser(null)}
+              >Sign Out</button>
+            </span>
+          ) : (
+            <>
+              <button className="signin-btn" type="button" aria-label="Sign In" tabIndex={0}
+                onClick={() => setActiveFeature('signin')}
+              >Sign In</button>
+              <button className="signup-link" type="button" aria-label="Sign Up" tabIndex={0}
+                onClick={() => setActiveFeature('signin')}
+              >Sign Up</button>
+            </>
+          )}
         </div>
       </div>
 
