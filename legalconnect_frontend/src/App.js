@@ -15,11 +15,36 @@ const navLinks = [
   { key: 'qa', label: 'Anonymous Q&A' }
 ];
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * Main App Component, handles navigation, user auth, modals, and content switching.
+ */
 function App() {
   // Controls which feature to show in the main content
   const [activeFeature, setActiveFeature] = useState('home');
   const [signedInUser, setSignedInUser] = useState(null);
+  // Modal control for auth overlays
+  const [modalType, setModalType] = useState(null); // null | 'signin' | 'signup'
+  const [modalSuccess, setModalSuccess] = useState("");
+
+  function closeModal() {
+    setModalType(null);
+    setModalSuccess("");
+  }
+
+  // PUBLIC_INTERFACE
+  function handleSignedIn(user) {
+    setSignedInUser(user);
+    setModalType(null);
+    setModalSuccess("Sign In successful! Welcome, " + user.name);
+    setTimeout(() => setModalSuccess(""), 1700);
+  }
+  // PUBLIC_INTERFACE
+  function handleSignedUp(user) {
+    setModalType(null);
+    setModalSuccess("Sign Up successful! You may now sign in.");
+    setTimeout(() => setModalSuccess(""), 1800);
+  }
 
   // PUBLIC_INTERFACE
   function renderMainContent() {
@@ -38,15 +63,6 @@ function App() {
         return <KnowYourRightsSection />;
       case 'qa':
         return <AnonymousQnASection />;
-      case 'signin':
-        return (
-          <SignInSection
-            onSignIn={user => {
-              setSignedInUser(user);
-              setActiveFeature('home');
-            }}
-          />
-        );
       default:
         return <FeaturesStackedSections setActiveFeature={setActiveFeature} />;
     }
@@ -55,7 +71,7 @@ function App() {
   // PUBLIC_INTERFACE
   return (
     <div className="app">
-      {/* Top Bar: Sign In/Sign Up at top right */}
+      {/* Top Bar: Sign In/Sign Up at top right, modal triggers */}
       <div className="topbar-auth">
         <div className="topbar-spacer" />
         <div className="topbar-auth-actions">
@@ -74,10 +90,10 @@ function App() {
           ) : (
             <>
               <button className="signin-btn" type="button" aria-label="Sign In" tabIndex={0}
-                onClick={() => setActiveFeature('signin')}
+                onClick={() => setModalType('signin')}
               >Sign In</button>
               <button className="signup-link" type="button" aria-label="Sign Up" tabIndex={0}
-                onClick={() => setActiveFeature('signin')}
+                onClick={() => setModalType('signup')}
               >Sign Up</button>
             </>
           )}
