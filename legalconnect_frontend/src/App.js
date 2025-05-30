@@ -14,8 +14,8 @@ function App() {
     { key: 'docs', label: 'Legal Docs Generator', icon: '📄', desc: 'Draft & Download Legal Docs' },
     { key: 'cases', label: 'Case Tracker', icon: '🗂️', desc: 'Track Your Cases' },
     { key: 'rights', label: 'Know Your Rights', icon: '⚖️', desc: 'Legal Rights Info' },
-    { key: 'qa', label: 'Anonymous Q&A', icon: '💬', desc: 'Ask Legal Questions' },
-    { key: 'signin', label: 'Sign In', icon: '👤', desc: 'Access Your Profile' }
+    { key: 'qa', label: 'Anonymous Q&A', icon: '💬', desc: 'Ask Legal Questions' }
+    // Sign-In completely removed
   ];
 
   // PUBLIC_INTERFACE
@@ -29,10 +29,8 @@ function App() {
         return <KnowYourRightsPlaceholder />;
       case 'qa':
         return <AnonymousForumPlaceholder />;
-      case 'signin':
-        return <SignInPlaceholder />;
       default:
-        // Home/Instant Lawyer Match
+        // Home/Instant Lawyer Match (fallback)
         return <InstantLawyerMatchPlaceholder />;
     }
   }
@@ -40,30 +38,6 @@ function App() {
   return (
     <>
       <div className="app">
-        {/* Top Bar with Sign-In Icon */}
-        <div className="signin-icon-container">
-          <button
-            className="signin-icon-btn"
-            aria-label="Sign in to your account"
-            title="Sign In"
-            onClick={() => setActiveFeature('signin')}
-          >
-            {/* SVG icon for user/profile, more visually distinct and accessible than emoji */}
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 28 28"
-              fill="none"
-              aria-hidden="true"
-              focusable="false"
-              className="signin-svg-icon"
-            >
-              <circle cx="14" cy="14" r="13" stroke="#1A237E" strokeWidth="2" fill="#FFD700"/>
-              <circle cx="14" cy="11.5" r="4.2" stroke="#1A237E" strokeWidth="1.5" fill="#F8F9FB"/>
-              <ellipse cx="14" cy="19.7" rx="7.2" ry="4.1" stroke="#1A237E" strokeWidth="1.5" fill="#fff"/>
-            </svg>
-          </button>
-        </div>
         {/* Top Header Bar with Centered Branding */}
         <header className="brand-header" aria-label="Site Header">
           <div
