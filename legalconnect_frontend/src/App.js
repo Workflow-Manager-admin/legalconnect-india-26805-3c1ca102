@@ -574,18 +574,114 @@ function VideoConsultSection() {
   );
 }
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * Know Your Rights: Expandable sections per category, "quiz" for engagement.
+ */
 function KnowYourRightsSection() {
+  const categories = [
+    {
+      key: "property",
+      title: "Property Rights",
+      desc: "Your right to acquire, hold, and dispose of property, protection from illegal eviction, and laws related to land and housing."
+    },
+    {
+      key: "marriage",
+      title: "Marriage & Divorce Rights",
+      desc: "Legal provisions for marriage registration, divorce, child custody, domestic violence protection and maintenance."
+    },
+    {
+      key: "cyber",
+      title: "Cyber Law & Protection",
+      desc: "Your rights when facing cybercrime, online fraud, identity theft, privacy breaches, or abuse on digital platforms."
+    },
+    {
+      key: "consumer",
+      title: "Consumer Protection",
+      desc: "Right to be protected against defective goods, unfair trade, fraud, and the procedure for redressal of complaints."
+    }
+  ];
+  const [openIdx, setOpenIdx] = useState(null);
+
+  // Simple quiz demo - one question
+  const quizQ = {
+    q: "Which law protects Indian consumers from defective goods?",
+    options: [
+      { text: "Consumer Protection Act, 2019", correct: true },
+      { text: "Property Act, 1999", correct: false },
+      { text: "IPC, Section 302", correct: false },
+      { text: "IT Act", correct: false },
+    ]
+  };
+  const [quizSelected, setQuizSelected] = useState(-1);
+  const [quizDone, setQuizDone] = useState(false);
+
   return (
-    <section tabIndex={-1} className="stacked-feature-section feature-section-know-rights">
+    <section tabIndex={-1} className="stacked-feature-section feature-section-know-rights" aria-label="Know Your Rights">
       <div className="stacked-feature-inner">
         <span className="stacked-feature-icon" aria-hidden="true">⚖️</span>
         <h2 className="stacked-feature-heading">Know Your Rights</h2>
-        <div className="stacked-feature-desc">
-          Learn about your rights under Indian law – from property and consumer protection to family &amp; cyber laws.<br /><br />
-          <em>Knowledgebase will soon be available.</em>
+        <div className="stacked-feature-desc" style={{marginBottom: 12}}>
+          Explore legal rights by area. Click a category to learn more.<br />
         </div>
-        <button className="btn btn-accent btn-large" disabled>Explore Rights (Stub)</button>
+        <div style={{
+          width: "100%", marginBottom: 15, display:"flex", flexDirection:"column", gap: "11px"
+        }}>
+          {categories.map((c, i) => (
+            <div
+              key={c.key}
+              style={{
+                background: "#F3F8EE",
+                borderRadius: "7px",
+                boxShadow: i === openIdx ? "0 1.5px 8px #a0d59133" : "0 1.5px 8px #e9f1f8",
+                padding: "11px 15px",
+                border: `2px solid ${i === openIdx ? "#2e7d32" : "#e4e6eb"}`,
+                cursor: "pointer"
+              }}
+              tabIndex={0}
+              onClick={() => setOpenIdx(openIdx === i ? null : i)}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setOpenIdx(openIdx === i ? null : i); }}
+              aria-expanded={openIdx === i}
+              aria-controls={`right-panel-${c.key}`}
+            >
+              <span style={{fontWeight:800}}>{c.title}</span>
+              {openIdx === i && (
+                <div id={`right-panel-${c.key}`} style={{margin: "6px 0 3px 5px", fontWeight:400, color:"#262"}}>
+                  {c.desc}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div style={{margin: "26px 0 8px 0", fontWeight: 600, color: "#1A237E"}}>Pop Quiz:</div>
+        <div style={{marginBottom: 7}}>{quizQ.q}</div>
+        <div>
+          {quizQ.options.map((o, idx) => (
+            <button
+              key={idx}
+              style={{
+                margin: "0 8px 7px 0",
+                border: "1.7px solid #FFD700",
+                borderRadius: "6px",
+                background: quizSelected === idx ? (o.correct ? "#4CAF50" : "#b50a46") : "#FFF",
+                color: quizSelected === idx ? "#fff" : "#1A237E",
+                fontWeight: quizSelected === idx ? 700 : 500,
+                padding: "6px 18px"
+              }}
+              disabled={quizDone}
+              onClick={() => {
+                setQuizSelected(idx);
+                setQuizDone(true);
+              }}
+            >{o.text}</button>
+          ))}
+        </div>
+        {quizDone && (
+          <div style={{margin: "6px 0", color: quizQ.options[quizSelected].correct ? "#4CAF50":"#b50a46", fontWeight:600}}>
+            {quizQ.options[quizSelected].correct ? "Correct!" : "Not quite right, try again next time!"}
+            <button style={{marginLeft:12}} className="btn" onClick={() => {setQuizDone(false);setQuizSelected(-1);}}>Try Another</button>
+          </div>
+        )}
       </div>
     </section>
   );
