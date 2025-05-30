@@ -33,8 +33,18 @@ function App() {
   // PUBLIC_INTERFACE
   return (
     <div className="app">
-      {/* Sticky, full-width, modern top NavBar */}
-      <header className="brand-header" aria-label="Site Header">
+
+      {/* Top Bar: Sign In/Sign Up at top right */}
+      <div className="topbar-auth">
+        <div className="topbar-spacer" />
+        <div className="topbar-auth-actions">
+          <button className="signin-btn" type="button" aria-label="Sign In" tabIndex={0}>Sign In</button>
+          <button className="signup-link" type="button" aria-label="Sign Up" tabIndex={0}>Sign Up</button>
+        </div>
+      </div>
+
+      {/* Centered logo heading at very top */}
+      <div className="heading-logo-container">
         <button
           className="brand-logo"
           tabIndex={0}
@@ -46,35 +56,30 @@ function App() {
           <span className="logo-symbol" aria-hidden="true">⚖️</span>
           <span className="brand-name">LegalConnect <span className="brand-name-secondary">India</span></span>
         </button>
+      </div>
 
-        <nav className="navbar" aria-label="Primary">
-          <ul className="navbar-nav" role="menu">
-            {navLinks.map(link => (
-              <li key={link.key}>
-                <button
-                  className={`navbar-link${activeFeature === link.key ? " active" : ""}`}
-                  role="menuitem"
-                  tabIndex={0}
-                  aria-current={activeFeature === link.key ? "page" : undefined}
-                  onClick={() => setActiveFeature(link.key)}
-                  onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setActiveFeature(link.key); }}
-                  aria-label={link.label}
-                  type="button"
-                  style={{ background: "none", border: "none" }}
-                >
-                  {link.label}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        {/* Sign In/Sign Up actions at right */}
-        <div className="navbar-actions">
-          <button className="signin-btn" type="button" aria-label="Sign In" tabIndex={0}>Sign In</button>
-          <button className="signup-link" type="button" aria-label="Sign Up" tabIndex={0}>Sign Up</button>
-        </div>
-      </header>
+      {/* Nav bar RIGHT BELOW heading/logo, horizontal and centered */}
+      <nav className="main-navbar-below-heading" aria-label="Primary">
+        <ul className="navbar-nav" role="menu">
+          {navLinks.map(link => (
+            <li key={link.key}>
+              <button
+                className={`navbar-link${activeFeature === link.key ? " active" : ""}`}
+                role="menuitem"
+                tabIndex={0}
+                aria-current={activeFeature === link.key ? "page" : undefined}
+                onClick={() => setActiveFeature(link.key)}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setActiveFeature(link.key); }}
+                aria-label={link.label}
+                type="button"
+                style={{ background: "none", border: "none" }}
+              >
+                {link.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
       {/* Hero section with law-themed image + overlay */}
       <section className="hero-top" tabIndex={-1} aria-label="Legal Services Hero Banner">
