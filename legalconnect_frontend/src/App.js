@@ -98,7 +98,7 @@ function App() {
       {/* Footer */}
       <footer className="footer" role="contentinfo">
         <div>
-          &copy; {new Date().getFullYear()} LegalConnect India &middot;
+          &copy; {new Date().getFullYear()} Indian Law Mate &middot;
           <a href="#" style={{ margin: "0 1em" }}>Contact</a>
           <a href="#" style={{ margin: "0 1em" }}>Privacy Policy</a>
           <a href="#" style={{ margin: "0 1em" }}>Terms of Service</a>
@@ -173,7 +173,7 @@ function InstantLawyerMatchPlaceholder() {
 
 /**
  * PUBLIC_INTERFACE
- * Modern, responsive feature cards grid: each core LegalConnect feature is
+ * Modern, responsive feature cards grid: each core feature is
  * shown as a card (icon, title, description) neatly explaining its value.
  * Cards are consistently styled, spaced, and align responsively.
  */
