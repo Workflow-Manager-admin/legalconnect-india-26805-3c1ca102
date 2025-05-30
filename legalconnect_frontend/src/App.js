@@ -401,6 +401,154 @@ function InstantLawyerMatchSection() {
 
 /**
  * PUBLIC_INTERFACE
+ * Legal Docs Generator: Choose template, fill interactive form, "download" as simulated doc.
+ */
+function LegalDocsSection() {
+  const templates = [
+    {
+      key: 'rental',
+      name: 'Rental Agreement',
+      fields: [
+        { name: 'Landlord Name', key: 'landlord', req: true },
+        { name: 'Tenant Name', key: 'tenant', req: true },
+        { name: 'Property Address', key: 'address', req: true },
+        { name: 'Monthly Rent (INR)', key: 'rent', req: true },
+        { name: 'Agreement Term (months)', key: 'term', req: true },
+      ]
+    },
+    {
+      key: 'affidavit',
+      name: 'Affidavit',
+      fields: [
+        { name: 'Deponent Name', key: 'deponent', req: true },
+        { name: 'Subject/Statement', key: 'subject', req: true },
+        { name: 'Date', key: 'date', req: true },
+        { name: 'Place', key: 'place', req: false }
+      ]
+    },
+    {
+      key: 'nda',
+      name: 'Non-disclosure Agreement (NDA)',
+      fields: [
+        { name: 'Party 1 Name', key: 'p1', req: true },
+        { name: 'Party 2 Name', key: 'p2', req: true },
+        { name: 'Purpose/Scope', key: 'purpose', req: true },
+        { name: 'Validity (months)', key: 'months', req: true },
+      ]
+    }
+  ];
+  const [step, setStep] = useState(0); // 0: pick template, 1: fill fields
+  const [tmpl, setTmpl] = useState(null);
+  const [vals, setVals] = useState({});
+  const [downloadContent, setDownloadContent] = useState(null);
+
+  // PUBLIC_INTERFACE
+  function handleTemplateChoose(tplKey) {
+    setTmpl(templates.find(t => t.key === tplKey));
+    setStep(1);
+    setVals({});
+    setDownloadContent(null);
+  }
+  // PUBLIC_INTERFACE
+  function handleInputChange(e) {
+    setVals({ ...vals, [e.target.name]: e.target.value });
+  }
+  // PUBLIC_INTERFACE
+  function handleSubmit(e) {
+    e.preventDefault();
+    // Basic validation: all req fields
+    if (tmpl.fields.some(f => f.req && !vals[f.key])) return;
+    // Compose the simple simulated legal document (plain text format)
+    let body = "";
+    if (tmpl.key === "rental") {
+      body = `RENTAL AGREEMENT\n\nThis agreement is between ${vals.landlord} (Landlord) and ${vals.tenant} (Tenant) for the property at ${vals.address}.\nMonthly Rent: INR ${vals.rent} | Term: ${vals.term} months.\n\n[Signature]`;
+    } else if (tmpl.key === "affidavit") {
+      body = `AFFIDAVIT\n\nI, ${vals.deponent}, solemnly affirm that: ${vals.subject}.\nDate: ${vals.date} | Place: ${vals.place || '-'}\n\n[Signature]`;
+    } else if (tmpl.key === "nda") {
+      body = `NON-DISCLOSURE AGREEMENT\n\nThis NDA is made between ${vals.p1} and ${vals.p2}.\nPurpose: ${vals.purpose}\nValidity: ${vals.months} months\n\n[Signature]`;
+    }
+    setDownloadContent(body);
+  }
+  // PUBLIC_INTERFACE
+  function downloadDoc() {
+    // Just text download for demo
+    const blob = new Blob([downloadContent], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.download = `${tmpl.name.replace(/ /g, '_')}.txt`;
+    a.href = url;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  // PUBLIC_INTERFACE
+  function reset() {
+    setStep(0);
+    setTmpl(null);
+    setVals({});
+    setDownloadContent(null);
+  }
+
+  return (
+    <section tabIndex={-1} className="stacked-feature-section feature-section-legal-docs" aria-label="Legal Document Generator">
+      <div className="stacked-feature-inner">
+        <span className="stacked-feature-icon" aria-hidden="true">📄</span>
+        <h2 className="stacked-feature-heading">Legal Document Generator</h2>
+        <div className="stacked-feature-desc">
+          {step === 0 && <>Select a document template to generate:</>}
+        </div>
+        {step === 0 && (
+          <div style={{display: "flex", flexDirection: "column", gap: "1em", marginTop: 12, marginBottom: 0}}>
+            {templates.map(t => (
+              <button key={t.key} className="btn btn-accent"
+                onClick={() => handleTemplateChoose(t.key)}
+                style={{width: "100%", fontWeight: 700}}
+              >{t.name}</button>
+            ))}
+          </div>
+        )}
+        {step === 1 && tmpl && !downloadContent && (
+          <form className="instant-lawyer-form" style={{marginTop: 16}} onSubmit={handleSubmit} autoComplete="off">
+            <div style={{fontWeight: 600, marginBottom: 10}}>Fill in the required fields:</div>
+            {tmpl.fields.map(field => (
+              <div key={field.key} className="form-group">
+                <label htmlFor={field.key}>
+                  {field.name}{field.req && <span style={{color: "#b50a46"}}>*</span>}
+                </label>
+                <input
+                  id={field.key}
+                  name={field.key}
+                  required={field.req}
+                  type="text"
+                  value={vals[field.key] || ""}
+                  onChange={handleInputChange}
+                  placeholder={`Enter ${field.name}...`}
+                />
+              </div>
+            ))}
+            <button className="btn btn-accent btn-large fade-in-btn" style={{marginTop: 8}} type="submit">Generate Document Preview</button>
+          </form>
+        )}
+        {downloadContent && (
+          <div style={{marginTop: 25}}>
+            <div style={{fontWeight: 600, color: "#4CAF50", marginBottom: 5}}>Document Ready:</div>
+            <pre style={{
+              background: "#fcf7ed", border: "1.5px solid #FFD700", borderRadius: 7,
+              padding: "14px 12px", fontFamily: "monospace", fontSize: "1.01em"
+            }}>{downloadContent}</pre>
+            <button className="btn btn-accent" onClick={downloadDoc} style={{marginTop: 9}}>Download .txt</button>
+            <button className="btn" style={{marginLeft: 8}} onClick={reset}>Create Another</button>
+          </div>
+        )}
+        {step === 1 && !downloadContent && (
+          <button className="btn" style={{marginTop: 18}} onClick={reset}>Back</button>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * PUBLIC_INTERFACE
  * Case Tracker: Interactive timeline; clicking a step marks it active and cycles.
  */
 function CaseTrackerSection() {
