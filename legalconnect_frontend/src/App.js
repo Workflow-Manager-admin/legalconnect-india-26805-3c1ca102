@@ -138,6 +138,33 @@ function App() {
         </ul>
       </nav>
 
+      {/* Modal overlays for Sign In/Sign Up. Styled overlay, keyboard dismiss, click off, close btn. */}
+      {(modalType === 'signin' || modalType === 'signup') && (
+        <AuthModal
+          type={modalType}
+          onClose={closeModal}
+          onSignedIn={handleSignedIn}
+          onSignedUp={handleSignedUp}
+        />
+      )}
+      {/* Display auth success messages in overlay at top */}
+      {modalSuccess && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 10, left: 0, width: "100vw", zIndex: 2001,
+            display: 'flex', justifyContent: 'center', pointerEvents: 'none'
+          }}
+        >
+          <div style={{
+            background: "#4CAF50", color: "#fff",
+            fontWeight: 700, fontSize: "1.09em", padding: "12px 40px",
+            borderRadius: 7, boxShadow: "0 4px 18px rgba(23,32,44,0.17)",
+            border: "2.5px solid #FFD700"
+          }}>{modalSuccess}</div>
+        </div>
+      )}
+
       {/* Hero section with law-themed image + overlay */}
       <section className="hero-top" tabIndex={-1} aria-label="Legal Services Hero Banner">
         <div className="hero-top-blur" aria-hidden="true" />
