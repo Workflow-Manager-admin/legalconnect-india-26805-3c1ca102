@@ -5,8 +5,10 @@ import './App.css';
 function App() {
   // Controls which feature to show in the main content
   const [activeFeature, setActiveFeature] = useState('home');
+  // For accessibility: store sidebar open/close state for mobile
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Helper for accessibility/focus
+  // Navigation Links
   const navLinks = [
     { key: 'home', label: 'Home', icon: '🏠', desc: 'Instant Lawyer Match' },
     { key: 'docs', label: 'Legal Docs Generator', icon: '📄', desc: 'Draft & Download Legal Docs' },
@@ -37,162 +39,97 @@ function App() {
 
   // PUBLIC_INTERFACE
   return (
-    <div className="app" style={{ minHeight: "100vh", background: "var(--neutral-bg)" }}>
-      {/* Top Navigation Bar */}
-      <nav className="navbar" aria-label="Main navigation">
-        <div className="container">
-          <div className="logo" style={{ cursor: "pointer" }} tabIndex={0} aria-label="LegalConnect India Home" onClick={() => setActiveFeature('home')}>
-            <span className="logo-symbol" aria-hidden="true">⚖️</span>
-            <span style={{ color: 'var(--secondary)' }}>LegalConnect <span style={{ color: 'var(--primary)' }}>India</span></span>
-          </div>
-          <ul style={{
-            display: "flex",
-            listStyle: "none",
-            gap: "1.7em",
-            margin: 0,
-            padding: 0,
-            alignItems: 'center',
-            fontWeight: 500
-          }}>
-            {navLinks.map(link => (
-              <li key={link.key}>
-                <button
-                  className="btn btn-secondary"
-                  style={{
-                    background: activeFeature === link.key ? 'var(--accent)' : 'var(--secondary)',
-                    color: activeFeature === link.key ? 'var(--text-contrast)' : 'var(--primary)'
-                  }}
-                  aria-label={`${link.label}: ${link.desc}`}
-                  tabIndex={0}
-                  onClick={() => setActiveFeature(link.key)}
-                  onKeyPress={(e) => { if (e.key === 'Enter' || e.key === ' ') setActiveFeature(link.key); }}
-                >
-                  <span role="img" aria-label={link.label} style={{ marginRight: 8 }}>{link.icon}</span>
-                  <span style={{ fontWeight: 600 }}>{link.label}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </nav>
-
-      {/* Layout: Sidebar for "Docs Generator", "Case Tracker", "Know Your Rights" if space allows */}
-      <div style={{
-        display: "flex",
-        flex: 1,
-        marginTop: 80, // Below the navbar
-        minHeight: "70vh"
-      }}>
-        {/* Sidebar (hidden on mobile) */}
-        <aside
-          className="sidebar"
-          style={{
-            minWidth: 170,
-            background: "var(--neutral-bg)",
-            borderRight: "1.5px solid var(--border)",
-            padding: "32px 12px 0 12px",
-            display: window.innerWidth > 750 ? "flex" : "none",
-            flexDirection: "column",
-            gap: 24
-          }}
-          aria-label="Section navigation"
+    <div className="app">
+      {/* Top Header Bar with Centered Branding */}
+      <header className="brand-header" aria-label="Site Header">
+        <div
+          className="brand-logo"
+          tabIndex={0}
+          aria-label="LegalConnect India Home"
+          onClick={() => setActiveFeature('home')}
+          onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') setActiveFeature('home'); }}
+          role="button"
         >
-          <SidebarNav
-            items={navLinks.filter(l => ['docs', 'cases', 'rights'].includes(l.key))}
-            activeFeature={activeFeature}
-            setActiveFeature={setActiveFeature}
-          />
+          <span className="logo-symbol" aria-hidden="true">⚖️</span>
+          <span className="brand-name">
+            LegalConnect <span className="brand-name-secondary">India</span>
+          </span>
+        </div>
+      </header>
+
+      {/* Hamburger menu for sidebar on mobile */}
+      <button 
+        aria-label="Open navigation menu" 
+        className="sidebar-toggle"
+        onClick={() => setSidebarOpen(true)}
+        style={{ display: 'none' }}
+        id="sidebar-toggle"
+      >
+        <span aria-hidden="true" style={{fontSize: "2em"}}>☰</span>
+      </button>
+
+      <div className="layout">
+        {/* Sidebar */}
+        <aside
+          className={`sidebar${sidebarOpen ? ' open' : ''}`}
+          aria-label="Feature navigation"
+        >
+          <nav>
+            {/* Mobile close button */}
+            <button 
+              tabIndex={sidebarOpen ? 0 : -1}
+              className="sidebar-close"
+              aria-label="Close navigation menu"
+              onClick={() => setSidebarOpen(false)}
+            >
+              ×
+            </button>
+            <ul className="sidebar-nav-list">
+              {navLinks.map(link => (
+                <li key={link.key}>
+                  <button
+                    className={`sidebar-nav-btn${activeFeature === link.key ? " active" : ""}`}
+                    aria-current={activeFeature === link.key ? "page" : undefined}
+                    tabIndex={0}
+                    aria-label={`${link.label}: ${link.desc}`}
+                    onClick={() => { setActiveFeature(link.key); setSidebarOpen(false); }}
+                    onKeyPress={(e) => { if (e.key === 'Enter' || e.key === ' ') { setActiveFeature(link.key); setSidebarOpen(false);} }}
+                  >
+                    <span className="sidebar-icon" aria-hidden="true">{link.icon}</span>
+                    <span>{link.label}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </aside>
-        {/* Main Content Area */}
+        
+        {/* Main Content */}
         <main
           id="main-content"
-          className="container"
+          className="main-content"
           tabIndex={-1}
           aria-live="polite"
-          style={{
-            minHeight: "62vh",
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            padding: "32px 12px 36px 12px",
-            background: "#fff",
-            boxShadow: "0 2.5px 16px rgba(26,35,126,0.06)",
-            marginLeft: window.innerWidth > 750 ? 0 : 0, // No left margin on mobile
-            borderRadius: 8
-          }}
         >
           {renderMainContent()}
         </main>
       </div>
 
       {/* Footer */}
-      <footer
-        className="container"
-        style={{
-          marginTop: 32,
-          fontSize: "1.02rem",
-          textAlign: "center",
-          color: "#313140",
-          borderTop: "1px solid var(--border)",
-          padding: "28px 0 20px 0"
-        }}
-      >
+      <footer className="footer" role="contentinfo">
         <div>
           &copy; {new Date().getFullYear()} LegalConnect India &middot;
           <a href="#" style={{ margin: "0 1em" }}>Contact</a>
           <a href="#" style={{ margin: "0 1em" }}>Privacy Policy</a>
           <a href="#" style={{ margin: "0 1em" }}>Terms of Service</a>
         </div>
-        <div style={{ fontSize: "0.96rem", color: "var(--accent)", marginTop: 8 }}>
+        <div className="footer-motto">
           Empowering Every Legal Journey – Indian Law, Accessible to All
         </div>
       </footer>
     </div>
   );
 }
-
-// PUBLIC_INTERFACE
-function SidebarNav({ items, activeFeature, setActiveFeature }) {
-  return (
-    <nav>
-      <ul style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "18px",
-        listStyle: "none",
-        padding: 0,
-        margin: 0
-      }}>
-        {items.map(link => (
-          <li key={link.key}>
-            <button
-              className="btn"
-              tabIndex={0}
-              style={{
-                boxShadow: "none",
-                background: activeFeature === link.key ? "var(--accent)" : "#f4f6fc",
-                color: activeFeature === link.key ? "var(--text-contrast)" : "var(--primary)",
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                padding: "8px 12px",
-                fontWeight: "bold",
-                fontSize: "1rem"
-              }}
-              onClick={() => setActiveFeature(link.key)}
-              onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') setActiveFeature(link.key); }}
-            >
-              <span style={{ marginRight: 10, fontSize: "1.32em" }}>{link.icon}</span>
-              <span>{link.label}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-}
-
-// --- MAIN CONTENT PLACEHOLDERS ---
 
 // PUBLIC_INTERFACE
 function InstantLawyerMatchPlaceholder() {
