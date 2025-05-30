@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
 import './App.css';
 
-// PUBLIC_INTERFACE
+// NAVIGATION LINKS CONFIG
+const navLinks = [
+  { key: 'home', label: 'Home' },
+  { key: 'docs', label: 'Legal Docs Generator' },
+  { key: 'cases', label: 'Case Tracker' },
+  { key: 'rights', label: 'Know your Rights' },
+  { key: 'qa', label: 'Anonymous Q&A' }
+];
+
 function App() {
   // Controls which feature to show in the main content
   const [activeFeature, setActiveFeature] = useState('home');
-  // For accessibility: store sidebar open/close state for mobile
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  // Navigation Links
-  const navLinks = [
-    { key: 'home', label: 'Home', icon: '🏠', desc: 'Instant Lawyer Match' },
-    { key: 'docs', label: 'Legal Docs Generator', icon: '📄', desc: 'Draft & Download Legal Docs' },
-    { key: 'cases', label: 'Case Tracker', icon: '🗂️', desc: 'Track Your Cases' },
-    { key: 'rights', label: 'Know Your Rights', icon: '⚖️', desc: 'Legal Rights Info' },
-    { key: 'qa', label: 'Anonymous Q&A', icon: '💬', desc: 'Ask Legal Questions' }
-    // Sign-In completely removed
-  ];
 
   // PUBLIC_INTERFACE
   function renderMainContent() {
@@ -30,155 +26,115 @@ function App() {
       case 'qa':
         return <AnonymousForumPlaceholder />;
       default:
-        // Home/Instant Lawyer Match (fallback)
         return <InstantLawyerMatchPlaceholder />;
     }
   }
+
   // PUBLIC_INTERFACE
   return (
-    <>
-      <div className="app">
-        {/* Top Header Bar with Centered Branding */}
-        <header className="brand-header" aria-label="Site Header">
-          <div
-            className="brand-logo"
-            tabIndex={0}
-            aria-label="Indian Law Mate Home"
-            onClick={() => setActiveFeature('home')}
-            onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') setActiveFeature('home'); }}
-            role="button"
-          >
-            <span className="logo-symbol" aria-hidden="true">⚖️</span>
-            <span className="brand-name">
-              Indian Law <span className="brand-name-secondary">Mate</span>
-            </span>
-          </div>
-        </header>
-
-        {/* Hamburger menu for sidebar on mobile */}
-        <button 
-          aria-label="Open navigation menu" 
-          className="sidebar-toggle"
-          onClick={() => setSidebarOpen(true)}
-          style={{ display: 'none' }}
-          id="sidebar-toggle"
+    <div className="app">
+      {/* Sticky, full-width, modern top NavBar */}
+      <header className="brand-header" aria-label="Site Header">
+        <button
+          className="brand-logo"
+          tabIndex={0}
+          aria-label="LegalConnect India Home"
+          onClick={() => setActiveFeature('home')}
+          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setActiveFeature('home'); }}
+          style={{ background: "none", border: "none" }}
         >
-          <span aria-hidden="true" style={{fontSize: "2em"}}>☰</span>
+          <span className="logo-symbol" aria-hidden="true">⚖️</span>
+          <span className="brand-name">LegalConnect <span className="brand-name-secondary">India</span></span>
         </button>
 
-        <div className="layout">
-          {/* Sidebar */}
-          <aside
-            className={`sidebar${sidebarOpen ? ' open' : ''}`}
-            aria-label="Feature navigation"
-          >
-            <nav>
-              {/* Mobile close button */}
-              <button 
-                tabIndex={sidebarOpen ? 0 : -1}
-                className="sidebar-close"
-                aria-label="Close navigation menu"
-                onClick={() => setSidebarOpen(false)}
-              >
-                ×
-              </button>
-              <ul className="sidebar-nav-list">
-                {navLinks.map(link => (
-                  <li key={link.key}>
-                    <button
-                      className={`sidebar-nav-btn${activeFeature === link.key ? " active" : ""}`}
-                      aria-current={activeFeature === link.key ? "page" : undefined}
-                      tabIndex={0}
-                      aria-label={`${link.label}: ${link.desc}`}
-                      onClick={() => { setActiveFeature(link.key); setSidebarOpen(false); }}
-                      onKeyPress={(e) => { if (e.key === 'Enter' || e.key === ' ') { setActiveFeature(link.key); setSidebarOpen(false);} }}
-                    >
-                      <span className="sidebar-icon" aria-hidden="true">{link.icon}</span>
-                      <span>{link.label}</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </aside>
-          
-          {/* Main Content */}
-          <main
-            id="main-content"
-            className="main-content"
-            tabIndex={-1}
-            aria-live="polite"
-          >
-            {renderMainContent()}
-          </main>
-        </div>
+        <nav className="navbar" aria-label="Primary">
+          <ul className="navbar-nav" role="menu">
+            {navLinks.map(link => (
+              <li key={link.key}>
+                <button
+                  className={`navbar-link${activeFeature === link.key ? " active" : ""}`}
+                  role="menuitem"
+                  tabIndex={0}
+                  aria-current={activeFeature === link.key ? "page" : undefined}
+                  onClick={() => setActiveFeature(link.key)}
+                  onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setActiveFeature(link.key); }}
+                  aria-label={link.label}
+                  type="button"
+                  style={{ background: "none", border: "none" }}
+                >
+                  {link.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-        {/* Footer */}
-        <footer className="footer" role="contentinfo">
-          <div>
-            &copy; {new Date().getFullYear()} Indian Law Mate &middot;
-            <a href="#" style={{ margin: "0 1em" }}>Contact</a>
-            <a href="#" style={{ margin: "0 1em" }}>Privacy Policy</a>
-            <a href="#" style={{ margin: "0 1em" }}>Terms of Service</a>
-          </div>
-          <div className="footer-motto">
-            Empowering Every Legal Journey – Indian Law, Accessible to All
-          </div>
-        </footer>
-      </div>
-    </>
+        {/* Sign In/Sign Up actions at right */}
+        <div className="navbar-actions">
+          <button className="signin-btn" type="button" aria-label="Sign In" tabIndex={0}>Sign In</button>
+          <button className="signup-link" type="button" aria-label="Sign Up" tabIndex={0}>Sign Up</button>
+        </div>
+      </header>
+
+      {/* Hero section with law-themed image + overlay */}
+      <section className="hero-top" tabIndex={-1} aria-label="Legal Services Hero Banner">
+        <div className="hero-top-blur" aria-hidden="true" />
+        <div className="hero-top-content">
+          <h1 className="hero-top-title">India's Trusted Legal Platform</h1>
+          <div className="hero-top-subtitle">Expert guidance. Instant solutions. Confidential &amp; accessible for all.</div>
+        </div>
+      </section>
+
+      {/* Main Content Area */}
+      <main id="main-content" className="main-content" tabIndex={-1} aria-live="polite">
+        {renderMainContent()}
+      </main>
+
+      {/* Footer */}
+      <footer className="footer" role="contentinfo">
+        <div>
+          &copy; {new Date().getFullYear()} LegalConnect India &middot;
+          <a href="#" style={{ margin: "0 1em" }}>Contact</a>
+          <a href="#" style={{ margin: "0 1em" }}>Privacy Policy</a>
+          <a href="#" style={{ margin: "0 1em" }}>Terms of Service</a>
+        </div>
+        <div className="footer-motto">
+          Empowering Every Legal Journey – Indian Law, Accessible to All
+        </div>
+      </footer>
+    </div>
   );
 }
 
+// Placeholder: Homepage "Instant Lawyer Match" hero
 // PUBLIC_INTERFACE
 function InstantLawyerMatchPlaceholder() {
   return (
-    <section className="hero" tabIndex={-1}>
-      <div className="subtitle">Connect With Verified Legal Experts Instantly</div>
-      <h1 className="title">Instant Lawyer Match</h1>
+    <section tabIndex={-1}>
+      <div className="subtitle" style={{ marginTop: 6 }}>
+        Connect With Verified Legal Experts Instantly
+      </div>
+      <h2 className="title">Instant Lawyer Match</h2>
       <div className="description" style={{ marginBottom: 30 }}>
         Tell us about your legal issue and we'll match you with the right lawyer. Transparent, fast, and confidential.
       </div>
-      {/* Placeholder for lawyer match form */}
+      {/* Mock form for visual layout */}
       <form
         className="container"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1em",
-          maxWidth: 410,
-          background: "transparent",
-          border: "none",
-          borderRadius: 0,
-          boxShadow: "none",
-          padding: "24px 22px"
-        }}
+        style={{ maxWidth: 420, margin: "0 auto", background: "var(--soft-white, #F5F5F5)" }}
         aria-label="Instant Lawyer Match Form"
         tabIndex={0}
       >
-        <label htmlFor="issue" style={{ fontWeight: "500" }}>Legal Issue<span style={{ color: 'var(--accent)' }}> *</span></label>
-        <input id="issue" name="issue" type="text" placeholder="Short description (e.g. Rental dispute, Cheque bounce...)" required style={{
-          border: "1.5px solid var(--primary)",
-          borderRadius: 5,
-          padding: "9px 12px",
-          marginBottom: 7
-        }} />
-        <label htmlFor="urgency" style={{ fontWeight: "500" }}>Urgency</label>
-        <select id="urgency" name="urgency" defaultValue="normal" style={{
-          border: "1.5px solid var(--primary)",
-          borderRadius: 5,
-          padding: "9px 12px",
-        }}>
+        <label htmlFor="issue" style={{ fontWeight: 500 }}>Legal Issue<span style={{ color: 'var(--gold)' }}> *</span></label>
+        <input id="issue" name="issue" type="text" placeholder="Your issue (e.g. Rental dispute, Cheque bounce...)" required />
+        <label htmlFor="urgency" style={{ fontWeight: 500 }}>Urgency</label>
+        <select id="urgency" name="urgency" defaultValue="normal">
           <option value="normal">Normal</option>
           <option value="urgent">Urgent</option>
           <option value="just-inquiry">Just Inquiry</option>
         </select>
-        <label htmlFor="budget" style={{ fontWeight: "500" }}>Budget Preference</label>
-        <select id="budget" name="budget" defaultValue="" style={{
-          border: "1.5px solid var(--primary)",
-          borderRadius: 5,
-          padding: "9px 12px",
-        }}>
+        <label htmlFor="budget" style={{ fontWeight: 500 }}>Budget Preference</label>
+        <select id="budget" name="budget" defaultValue="">
           <option value="">No Preference</option>
           <option value="basic">Basic (&lt;₹5000)</option>
           <option value="mid">Standard (₹5000-₹20,000)</option>
@@ -186,7 +142,7 @@ function InstantLawyerMatchPlaceholder() {
         </select>
         <button className="btn btn-accent btn-large" type="submit" disabled>Match Me (Stub)</button>
       </form>
-      <div style={{ marginTop: 34, textAlign: "left", width: "100%", maxWidth: 540 }}>
+      <div style={{ marginTop: 38, textAlign: "left", width: "100%", maxWidth: 540 }}>
         <FeatureHighlights />
       </div>
     </section>
@@ -242,8 +198,8 @@ function FeatureHighlights() {
             boxShadow: "none"
           }}
         >
-          <span style={{ fontSize: "2.2rem", color: "var(--primary)" }}>{f.icon}</span>
-          <span style={{ fontWeight: "600", marginTop: 2 }}>{f.title}</span>
+          <span style={{ fontSize: "2.2rem", color: "var(--navy)" }}>{f.icon}</span>
+          <span style={{ fontWeight: 600, marginTop: 2 }}>{f.title}</span>
           <span style={{ fontSize: "0.98rem", lineHeight: 1.18, color: "#444", textAlign: "center" }}>{f.desc}</span>
         </div>
       ))}
@@ -254,8 +210,8 @@ function FeatureHighlights() {
 // PUBLIC_INTERFACE
 function DocsGeneratorPlaceholder() {
   return (
-    <section className="hero" tabIndex={-1} style={{ alignItems: "flex-start" }}>
-      <h1 className="title"><span role="img" aria-label="Docs" style={{ marginRight: 10 }}>📄</span>Legal Document Generator</h1>
+    <section tabIndex={-1} style={{ alignItems: "flex-start" }}>
+      <h2 className="title"><span role="img" aria-label="Docs" style={{ marginRight: 10 }}>📄</span>Legal Document Generator</h2>
       <div className="description">
         Select, fill, and download Indian legal document templates such as agreements and affidavits. <br /><br />
         <em>Full interactive generator coming soon.</em>
@@ -268,8 +224,8 @@ function DocsGeneratorPlaceholder() {
 // PUBLIC_INTERFACE
 function CaseTrackerPlaceholder() {
   return (
-    <section className="hero" tabIndex={-1} style={{ alignItems: "flex-start" }}>
-      <h1 className="title"><span role="img" aria-label="Cases" style={{ marginRight: 10 }}>🗂️</span>Case Tracker</h1>
+    <section tabIndex={-1} style={{ alignItems: "flex-start" }}>
+      <h2 className="title"><span role="img" aria-label="Cases" style={{ marginRight: 10 }}>🗂️</span>Case Tracker</h2>
       <div className="description">
         Timeline view for your ongoing cases, complete with court hearing dates and alert notifications.<br /><br />
         <em>Case dashboard feature coming soon.</em>
@@ -282,8 +238,8 @@ function CaseTrackerPlaceholder() {
 // PUBLIC_INTERFACE
 function KnowYourRightsPlaceholder() {
   return (
-    <section className="hero" tabIndex={-1} style={{ alignItems: "flex-start" }}>
-      <h1 className="title"><span role="img" aria-label="Rights" style={{ marginRight: 10 }}>⚖️</span>Know Your Rights</h1>
+    <section tabIndex={-1} style={{ alignItems: "flex-start" }}>
+      <h2 className="title"><span role="img" aria-label="Rights" style={{ marginRight: 10 }}>⚖️</span>Know Your Rights</h2>
       <div className="description">
         Learn about your rights and Indian law – from property and consumer issues to marriage and cyber law.<br /><br />
         <em>Knowledgebase will soon be available.</em>
@@ -296,17 +252,15 @@ function KnowYourRightsPlaceholder() {
 // PUBLIC_INTERFACE
 function AnonymousForumPlaceholder() {
   return (
-    <section className="hero" tabIndex={-1} style={{ alignItems: "flex-start" }}>
-      <h1 className="title"><span role="img" aria-label="Q&A" style={{ marginRight: 10 }}>💬</span>Anonymous Q&A Forum</h1>
+    <section tabIndex={-1} style={{ alignItems: "flex-start" }}>
+      <h2 className="title"><span role="img" aria-label="Q&A" style={{ marginRight: 10 }}>💬</span>Anonymous Q&amp;A Forum</h2>
       <div className="description">
-        Post your legal query anonymously or browse the Q&A bank.<br /><br />
+        Post your legal query anonymously or browse the Q&amp;A bank.<br /><br />
         <em>Forum feature will be enabled soon.</em>
       </div>
       <button className="btn btn-accent btn-large" disabled>Ask A Question (Stub)</button>
     </section>
   );
 }
-
-
 
 export default App;
