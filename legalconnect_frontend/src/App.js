@@ -507,18 +507,68 @@ function CaseTrackerSection() {
   );
 }
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * Video Consultation Booking: Book slot on calendar, see mock confirmation.
+ */
 function VideoConsultSection() {
+  // Demo appointments in next 7 days, multiple time slots
+  const today = new Date();
+  function getNDaysOut(n) {
+    const d = new Date();
+    d.setDate(today.getDate() + n);
+    return d.toISOString().slice(0, 10);
+  }
+  const AVAILABLE_DAYS = Array.from({length: 7}, (_,i) => getNDaysOut(i));
+  const TIMES = ["09:30", "11:30", "13:30", "16:00", "18:00"];
+  const [chosenDay, setChosenDay] = useState(AVAILABLE_DAYS[0]);
+  const [chosenTime, setChosenTime] = useState(TIMES[0]);
+  const [confirmed, setConfirmed] = useState(false);
+
   return (
-    <section tabIndex={-1} className="stacked-feature-section feature-section-video-booking">
+    <section tabIndex={-1} className="stacked-feature-section feature-section-video-booking" aria-label="Video Consultation Booking">
       <div className="stacked-feature-inner">
         <span className="stacked-feature-icon" aria-hidden="true">🎥</span>
         <h2 className="stacked-feature-heading">Video Consultation Booking</h2>
         <div className="stacked-feature-desc">
-          Book video meetings with legal experts on your schedule.<br /><br />
-          <em>Booking system coming soon.</em>
+          Book secure and confidential video consultation slots.<br />
+          Choose date &amp; time. (Demo)
         </div>
-        <button className="btn btn-accent btn-large" disabled>Book Consultation (Stub)</button>
+        {!confirmed ? (
+          <form className="instant-lawyer-form" style={{marginTop: 12}}
+                onSubmit={e => { e.preventDefault(); setConfirmed(true); }}>
+            <div className="form-group">
+              <label htmlFor="vc-date">Date</label>
+              <select id="vc-date" value={chosenDay} onChange={e => setChosenDay(e.target.value)}>
+                {AVAILABLE_DAYS.map(d =>
+                  <option key={d} value={d}>{d}</option>
+                )}
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="vc-time">Time</label>
+              <select id="vc-time" value={chosenTime} onChange={e => setChosenTime(e.target.value)}>
+                {TIMES.map(t =>
+                  <option key={t} value={t}>{t}</option>
+                )}
+              </select>
+            </div>
+            <button type="submit" className="btn btn-accent btn-large" style={{marginTop: 5}}>Book Slot</button>
+          </form>
+        ) : (
+          <div style={{marginTop: 24, color: "#4CAF50", fontWeight: 700}}>
+            Booking Confirmed!
+            <div style={{ fontWeight: 400, color: "#141812", margin: "8px 0" }}>
+              <span>Date:</span> <b>{chosenDay}</b> <span>Time:</span> <b>{chosenTime}</b><br />
+              (A Google Meet/Zoom link will be generated for your slot.)
+            </div>
+            <button
+              className="btn"
+              onClick={() => setConfirmed(false)}
+              style={{marginTop: 7}}
+            >Book Another</button>
+          </div>
+        )}
       </div>
     </section>
   );
