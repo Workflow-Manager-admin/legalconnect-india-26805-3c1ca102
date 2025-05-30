@@ -1,63 +1,96 @@
 :root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
+  /* LegalConnect India Brand Colors */
+  --primary: #1A237E;     /* Navy Blue */
+  --secondary: #FFD700;   /* Gold */
+  --accent: #4CAF50;      /* Green */
+  --neutral-bg: #F8F9FB;  /* Light blend background */
+  --text: #111;
+  --text-contrast: #fff;
+  --border: #e0e2ea;
+  --focus: #1741b6;
 }
-
+/* ===== CSS RESET / ACCESSIBLE BASE ===== */
+/* Remove default browser margins, set base font */
+html {
+  box-sizing: border-box;
+  font-size: 100%;
+  scroll-behavior: smooth;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
 body {
   margin: 0;
-  font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  background-color: var(--kavia-dark);
-  color: var(--text-color);
+  padding: 0;
+  font-family: 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--neutral-bg);
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.7;
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ===== LAYOUT CLASSES ===== */
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--neutral-bg);
 }
 
+/* ===== NAVBAR ===== */
 .navbar {
-  background-color: var(--kavia-dark);
-  padding: 16px;
+  background: var(--primary);
+  color: var(--text-contrast);
+  padding: 16px 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border-color);
+  justify-content: center;
+  border-bottom: 2px solid var(--secondary);
   position: fixed;
   top: 0;
   width: 100%;
-  box-sizing: border-box;
   z-index: 100;
+  box-sizing: border-box;
+  min-height: 64px;
+}
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
+/* ===== LOGO ===== */
 .logo {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--secondary);
   display: flex;
   align-items: center;
   gap: 8px;
 }
-
 .logo-symbol {
-  color: var(--kavia-orange);
+  color: var(--accent);
+  font-size: 2rem;
 }
 
+/* ===== CONTAINERS ===== */
 .container {
-  max-width: 900px;
+  max-width: 1050px;
   margin: 0 auto;
   padding: 0 24px;
   width: 100%;
   box-sizing: border-box;
 }
 
+/* ===== HERO / MAIN HEADER AREA ===== */
 .hero {
-  padding-top: 120px;
-  padding-bottom: 64px;
+  padding-top: 104px; /* below navbar */
+  padding-bottom: 56px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -65,44 +98,129 @@ body {
   gap: 24px;
 }
 
-.subtitle {
-  color: var(--kavia-orange);
-  font-weight: 500;
-  font-size: 1.1rem;
-}
-
+/* ===== TYPOGRAPHY ===== */
 .title {
-  font-size: 3.5rem;
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0.5rem 0 0.25rem 0;
+  color: var(--primary);
+}
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--accent);
   font-weight: 600;
-  line-height: 1.2;
-  margin: 0;
+  margin-bottom: 0.4rem;
 }
-
 .description {
-  font-size: 1.1rem;
-  line-height: 1.5;
-  color: var(--text-secondary);
+  font-size: 1.08rem;
+  color: #313140;
   max-width: 600px;
-  margin-bottom: 16px;
+  margin: 0 auto 12px auto;
 }
 
+/* ===== BUTTONS ===== */
 .btn {
-  background-color: var(--kavia-orange);
-  color: white;
+  background-color: var(--primary);
+  color: var(--text-contrast);
   border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
+  border-radius: 5px;
+  padding: 10px 22px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  outline: none;
+  transition: background 0.18s, box-shadow 0.15s;
+  box-shadow: 0 1px 5px rgba(26,35,126, 0.06);
+  margin: 0.4em 0;
+}
+.btn:hover,
+.btn:focus-visible {
+  background: var(--focus);
+  color: var(--text-contrast);
+  box-shadow: 0 2px 10px rgba(26,35,126, 0.11);
 }
 
-.btn:hover {
-  background-color: #FF8B4D;
+/* Secondary/Accent Buttons */
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--primary);
 }
-
+.btn-secondary:hover, .btn-secondary:focus-visible {
+  background: #ffe34b;
+  color: var(--primary);
+}
+.btn-accent {
+  background-color: var(--accent);
+  color: var(--text-contrast);
+}
+.btn-accent:hover, .btn-accent:focus-visible {
+  background: #388e3c;
+  color: var(--text-contrast);
+}
 .btn-large {
-  padding: 12px 24px;
-  font-size: 1.1rem;
+  padding: 13px 32px;
+  font-size: 1.14rem;
+  font-weight: 600;
 }
+
+a,
+a:visited {
+  color: var(--primary);
+  text-decoration: underline;
+  transition: color 0.15s;
+}
+a:hover,
+a:focus {
+  color: var(--accent);
+  outline: none;
+}
+
+/* ===== FOCUS VISIBLE FOR ACCESSIBILITY ===== */
+:focus-visible {
+  outline: 2.5px solid var(--accent);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+/* ===== HEADINGS ===== */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary);
+  font-family: inherit;
+  font-weight: 700;
+  margin: 0.3em 0 0.42em 0;
+  line-height: 1.13;
+}
+
+/* ===== MISC UTILITIES ===== */
+.hide {
+  display: none !important;
+}
+.text-center {
+  text-align: center !important;
+}
+
+/* ===== REMOVE REMNANTS OF TEMPLATE/KAVIA ===== */
+/* No KAVIA-brand, no --kavia-*, template-specific coloring or classes */
+
+/* ===== RESPONSIVENESS ===== */
+@media (max-width: 700px) {
+  .container { padding: 0 10px; }
+  .navbar .container { flex-direction: column; align-items: flex-start; gap: 8px;}
+  .title { font-size: 2rem; }
+  .hero { padding-top: 96px; }
+}
+@media (max-width:510px) {
+  .title { font-size: 1.41rem; }
+  .subtitle { font-size: 0.99rem; }
+  .navbar { min-height: 50px; }
+}
+
+/* ===== ADDITIONAL STYLES ENSURING ACCESSIBILITY ===== */
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ===== END GLOBAL STYLES ===== */
