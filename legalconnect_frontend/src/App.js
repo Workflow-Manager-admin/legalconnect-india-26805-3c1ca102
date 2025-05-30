@@ -1070,4 +1070,229 @@ function SignInSection({ onSignIn }) {
   );
 }
 
+/**
+ * Authentication Modal (overlay) for Sign In & Sign Up.
+ * Props:
+ *   - type: "signin" | "signup"
+ *   - onClose: function
+ *   - onSignedIn: function(user) // on Sign In success
+ *   - onSignedUp: function(user) // on Sign Up success
+ */
+function AuthModal({ type, onClose, onSignedIn, onSignedUp }) {
+  // Close on ESC or click outside content
+  React.useEffect(() => {
+    function handler(e) {
+      if (e.key && e.key.toLowerCase() === "escape") onClose();
+    }
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+  // Handle tab trapping for accessibility (optional)
+  const contentRef = React.useRef();
+  React.useEffect(() => {
+    if (!contentRef.current) return;
+    const focusable = contentRef.current.querySelectorAll("input,button,[tabindex='0']");
+    if (focusable.length) focusable[0].focus();
+  }, []);
+  function handleBackdropClick(e) {
+    if (e.target && e.target.classList.contains('auth-modal-backdrop')) {
+      onClose();
+    }
+  }
+  return (
+    <div
+      className="auth-modal-backdrop"
+      style={{
+        position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh",
+        zIndex: 1200, background: "rgba(16,23,36,0.56)", display: "flex",
+        alignItems: "center", justifyContent: "center",
+        animation: "fadeIn 0.23s both"
+      }}
+      role="dialog"
+      aria-modal="true"
+      aria-label={type === "signin" ? "Sign In Form" : "Sign Up Form"}
+      tabIndex={-1}
+      onClick={handleBackdropClick}
+    >
+      <div
+        ref={contentRef}
+        style={{
+          background: "#fff", borderRadius: 10, boxShadow: "0 2.5px 25px #0D1B2A33",
+          padding: "32px 30px 28px 30px", minWidth: 320, maxWidth: 370, width: "95vw",
+          border: "2.5px solid #D4AF37", position: "relative",
+          animation: "fadeInUp 0.26s cubic-bezier(.65,.09,.36,1.1) both"
+        }}
+        onClick={e => e.stopPropagation()}
+      >
+        <button onClick={onClose} aria-label="Close" style={{
+          position: "absolute", right: 17, top: 11, border: "none", background: "transparent",
+          fontSize: 23, color: "#b50a46", cursor: "pointer", fontWeight: 700, padding: 0
+        }} tabIndex={0}>×</button>
+        <div style={{ margin: "7px 0 13px 0", textAlign: "center" }}>
+          <span style={{
+            fontSize: 44, display: "block", color: "#D4AF37", fontFamily: "'Montserrat', Arial, sans-serif"
+          }}>{type === "signin" ? "👤" : "📝"}</span>
+          <div style={{
+            fontWeight: 700, fontSize: "1.19em", letterSpacing: "0.03em", color: "#1A237E",
+            marginTop: 0, marginBottom: 8, fontFamily: "'Montserrat', Arial, sans-serif"
+          }}>
+            {type === "signin" ? "Sign In" : "Sign Up"}
+          </div>
+        </div>
+        {type === "signin" ? (
+          <SignInForm onSignedIn={onSignedIn} />
+        ) : (
+          <SignUpForm onSignedUp={onSignedUp} />
+        )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Sign In Form (modal)
+ * Fields: email/mobile, password.
+ */
+function SignInForm({ onSignedIn }) {
+  const [vals, setVals] = React.useState({ email: "", password: "" });
+  const [tried, setTried] = React.useState(false);
+  const [errors, setErrors] = React.useState({});
+  const [loading, setLoading] = React.useState(false);
+
+  function validate() {
+    const e = {};
+    if (!vals.email.match(/^([6-9]\d{9}|[^@]+@[^@]+\.[^@]+)$/))
+      e.email = "Enter a valid email or Indian mobile";
+    if (!vals.password || vals.password.length < 5)
+      e.password = "Password must be 5+ characters";
+    return e;
+  }
+  function handleChange(ev) {
+    setVals({ ...vals, [ev.target.name]: ev.target.value });
+  }
+  function handleSubmit(ev) {
+    ev.preventDefault();
+    setTried(true);
+    const errs = validate();
+    setErrors(errs);
+    if (Object.keys(errs).length === 0) {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        // "Sign In": return mock user
+        onSignedIn({
+          name: vals.email.includes("@") ? (vals.email.split("@")[0] || "User") : "User",
+          email: vals.email
+        });
+      }, 1000);
+    }
+  }
+  return (
+    <form className="instant-lawyer-form" style={{minWidth:0, width: "100%"}} onSubmit={handleSubmit} autoComplete="off">
+      <div className="form-group">
+        <label htmlFor="signin-email">Email or Mobile<span style={{color: "#b50a46"}}>*</span></label>
+        <input id="signin-email" name="email" value={vals.email} onChange={handleChange} required
+          autoFocus autoComplete="username" placeholder="Enter email or mobile number"/>
+        {tried && errors.email && <div style={{color:"#b50a46", fontSize: ".93em"}}>{errors.email}</div>}
+      </div>
+      <div className="form-group">
+        <label htmlFor="signin-password">Password<span style={{color: "#b50a46"}}>*</span></label>
+        <input id="signin-password" name="password" value={vals.password}
+          onChange={handleChange} required type="password" autoComplete="current-password"
+          minLength={5} placeholder="Enter password"/>
+        {tried && errors.password && <div style={{color:"#b50a46", fontSize: ".93em"}}>{errors.password}</div>}
+      </div>
+      <button className="btn btn-accent btn-large fade-in-btn"
+        type="submit" style={{marginTop: 10, minWidth:94}} disabled={loading}
+      >{loading ? "Signing In..." : "Sign In"}</button>
+    </form>
+  );
+}
+
+/**
+ * Sign Up Form (modal)
+ * Fields: name, address, phone, email, password, confirm password.
+ */
+function SignUpForm({ onSignedUp }) {
+  const [vals, setVals] = React.useState({
+    name: "", address: "", phone: "", email: "", password: "", confirm: ""
+  });
+  const [tried, setTried] = React.useState(false);
+  const [errors, setErrors] = React.useState({});
+  const [loading, setLoading] = React.useState(false);
+
+  function validate() {
+    const e = {};
+    if (!vals.name) e.name = "Required";
+    if (!vals.address) e.address = "Required";
+    if (!vals.phone.match(/^[6-9][0-9]{9}$/))
+      e.phone = "10-digit Indian mobile";
+    if (!vals.email.match(/^[^@]+@[^@]+\.[^@]+$/))
+      e.email = "Invalid email";
+    if (!vals.password || vals.password.length < 5)
+      e.password = "At least 5 characters";
+    if (vals.confirm !== vals.password)
+      e.confirm = "Does not match password";
+    return e;
+  }
+  function handleChange(ev) {
+    setVals({ ...vals, [ev.target.name]: ev.target.value });
+  }
+  function handleSubmit(ev) {
+    ev.preventDefault();
+    setTried(true);
+    const errs = validate();
+    setErrors(errs);
+    if (Object.keys(errs).length === 0) {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        // Simulate sign up success
+        onSignedUp({...vals});
+      }, 1100);
+    }
+  }
+  return (
+    <form className="instant-lawyer-form" style={{minWidth:0, width: "100%"}} onSubmit={handleSubmit} autoComplete="off">
+      <div className="form-group">
+        <label htmlFor="signup-name">Name<span style={{color: "#b50a46"}}>*</span></label>
+        <input id="signup-name" name="name" value={vals.name} onChange={handleChange} required />
+        {tried && errors.name && <div style={{color:"#b50a46", fontSize: ".91em"}}>{errors.name}</div>}
+      </div>
+      <div className="form-group">
+        <label htmlFor="signup-address">Address<span style={{color: "#b50a46"}}>*</span></label>
+        <input id="signup-address" name="address" value={vals.address} onChange={handleChange} required />
+        {tried && errors.address && <div style={{color:"#b50a46", fontSize: ".91em"}}>{errors.address}</div>}
+      </div>
+      <div className="form-group">
+        <label htmlFor="signup-phone">Mobile Number<span style={{color: "#b50a46"}}>*</span></label>
+        <input id="signup-phone" name="phone" value={vals.phone} onChange={handleChange} required maxLength={10} minLength={10} placeholder="9123456789"/>
+        {tried && errors.phone && <div style={{color:"#b50a46", fontSize: ".91em"}}>{errors.phone}</div>}
+      </div>
+      <div className="form-group">
+        <label htmlFor="signup-email">Email<span style={{color: "#b50a46"}}>*</span></label>
+        <input id="signup-email" name="email" value={vals.email} onChange={handleChange} required type="email" />
+        {tried && errors.email && <div style={{color:"#b50a46", fontSize: ".91em"}}>{errors.email}</div>}
+      </div>
+      <div className="form-group">
+        <label htmlFor="signup-password">Password<span style={{color: "#b50a46"}}>*</span></label>
+        <input id="signup-password" name="password" value={vals.password}
+          onChange={handleChange} required type="password" minLength={5}
+          autoComplete="new-password" placeholder="Create password"/>
+        {tried && errors.password && <div style={{color:"#b50a46", fontSize: ".91em"}}>{errors.password}</div>}
+      </div>
+      <div className="form-group">
+        <label htmlFor="signup-confirm">Confirm Password<span style={{color: "#b50a46"}}>*</span></label>
+        <input id="signup-confirm" name="confirm" value={vals.confirm}
+          onChange={handleChange} required type="password" minLength={5}
+          placeholder="Confirm password"/>
+        {tried && errors.confirm && <div style={{color:"#b50a46", fontSize: ".91em"}}>{errors.confirm}</div>}
+      </div>
+      <button className="btn btn-accent btn-large fade-in-btn"
+        type="submit" style={{marginTop: 10, minWidth:124}} disabled={loading}
+      >{loading ? "Signing Up..." : "Sign Up"}</button>
+    </form>
+  );
+}
+
 export default App;
