@@ -46,17 +46,66 @@ body {
 /* ===== APP LAYOUT ===== */
 .app {
   min-height: 100vh;
-  background: var(--neutral-bg);
+  background: transparent;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
+
+/* Top Left Sign-In Icon */
+.signin-icon-container {
+  position: fixed;
+  top: 14px;
+  left: 18px;
+  z-index: 1112;
+  display: flex;
+  align-items: flex-start;
+}
+
+@media (max-width: 670px) {
+  .signin-icon-container {
+    top: 7px;
+    left: 6.5vw;
+  }
+}
+.signin-icon-btn {
+  padding: 3.5px 4.5px;
+  border-radius: 48%;
+  border: 2px solid var(--secondary);
+  background: #fffdebcc;
+  transition: box-shadow 0.14s, border 0.19s, background 0.18s;
+  box-shadow: 0 1px 6.5px #ffd70033;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.signin-icon-btn:hover, .signin-icon-btn:focus-visible {
+  box-shadow: 0 2px 16px #ffd70063;
+  border: 2.5px solid var(--accent);
+  background: #fffbeec6;
+}
+
+.signin-svg-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Space for Sign-In icon on header */
+@media (min-width: 0px) {
+  .brand-header {
+    padding-left: 48px;
+  }
+}
+
 
 /* ===== TOP HEADER: BRAND CENTERED ===== */
 .brand-header {
   position: fixed;
   top: 0; left: 0; right: 0;
   width: 100vw;
-  background: var(--primary);
+  background: rgba(26,35,126,0.975);
   border-bottom: 2px solid var(--secondary);
   color: var(--text-contrast);
   z-index: 110;
@@ -67,7 +116,10 @@ body {
   justify-content: center;
   text-align: center;
   box-sizing: border-box;
+  /* padding overlap left for icon */
+  padding-left: 0.3em;
 }
+
 
 .brand-logo {
   display: flex;
@@ -248,10 +300,10 @@ body {
   min-width: 0;
   margin-left: 198px;
   padding: 28px 18px 40px 18px;
-  background: #fff;
+  background: rgba(255,255,255, 0.93);
   border-radius: 10px;
   min-height: 67vh;
-  box-shadow: 0 2.5px 16px rgba(26,35,126,0.06);
+  box-shadow: 0 2.5px 16px rgba(26,35,126,0.09);
   position: relative;
   transition: margin-left 0.18s;
 }
