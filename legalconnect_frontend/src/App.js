@@ -171,61 +171,54 @@ function InstantLawyerMatchPlaceholder() {
   );
 }
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * Modern, responsive feature cards grid: each core LegalConnect feature is
+ * shown as a card (icon, title, description) neatly explaining its value.
+ * Cards are consistently styled, spaced, and align responsively.
+ */
 function FeatureHighlights() {
-  // Icon and description for each feature on home
-  const highlights = [
+  const features = [
     {
       icon: "📄",
       title: "Legal Docs Generator",
-      desc: "Draft affidavits, rental agreements, and more with guided templates."
+      desc: "Quickly generate essential legal documents such as affidavits, rental agreements, or NDAs. Guided forms let you customize details with confidence, and download ready-to-use PDFs in minutes."
     },
     {
       icon: "🗂️",
       title: "Case Tracker",
-      desc: "Visualize case status and court dates in real time."
+      desc: "Track your legal matters in one place. View real-time case statuses, timelines, and receive alerts for upcoming court dates—stay in control and never miss an update."
     },
     {
-      icon: "💬",
-      title: "Anonymous Q&A",
-      desc: "Ask questions and get answers from verified lawyers."
+      icon: "🎥",
+      title: "Video Consultation Booking",
+      desc: "Book secure, confidential video consultations with verified lawyers at your convenience. Pick a time, connect via Zoom/Google Meet, and get expert advice face-to-face."
     },
     {
       icon: "⚖️",
       title: "Know Your Rights",
-      desc: "Understand legal protections, explained in plain English/Hindi."
+      desc: "Explore plain-language guides for Indian legal protections—property, consumer, marriage, and more. Empower yourself with accurate, accessible knowledge in English and Hindi."
     },
     {
-      icon: "🎥",
-      title: "Video Consultations",
-      desc: "Book appointments and consult virtually with legal experts."
+      icon: "💬",
+      title: "Anonymous Q&A",
+      desc: "Ask basic legal questions anonymously—no sign-in required. Receive answers from authentic lawyers and search a growing bank of previously resolved queries."
     }
   ];
+
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center" }}>
-      {highlights.map((f, i) => (
-        <div key={i}
-          style={{
-            flex: "1 1 170px",
-            minWidth: 140,
-            maxWidth: 200,
-            background: "transparent",
-            border: "none",
-            borderRadius: 0,
-            padding: "13px 12px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 5,
-            boxShadow: "none"
-          }}
-        >
-          <span style={{ fontSize: "2.2rem", color: "var(--navy)" }}>{f.icon}</span>
-          <span style={{ fontWeight: 600, marginTop: 2 }}>{f.title}</span>
-          <span style={{ fontSize: "0.98rem", lineHeight: 1.18, color: "#444", textAlign: "center" }}>{f.desc}</span>
-        </div>
-      ))}
-    </div>
+    <section className="features-section" aria-label="Main Platform Features" tabIndex={-1}>
+      <h3 className="features-section-heading" style={{textAlign:"center", marginBottom:10, color:"var(--navy)", fontFamily:"var(--font-heading)", fontWeight:700}}>Why Choose LegalConnect India?</h3>
+      <div className="features-grid">
+        {features.map((f, idx) => (
+          <div className="feature-card" key={f.title}>
+            <div className="feature-icon" aria-hidden="true">{f.icon}</div>
+            <div className="feature-title">{f.title}</div>
+            <div className="feature-desc">{f.desc}</div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
