@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
 
-// NAVIGATION LINKS CONFIG
+/*
+ * NAVIGATION LINKS CONFIG
+ * Removed Sign-In from nav bar links. Auth handled in topbar only.
+ */
 const navLinks = [
   { key: 'home', label: 'Home' },
   { key: 'lawyer', label: 'Instant Lawyer Match' },
@@ -9,8 +12,7 @@ const navLinks = [
   { key: 'cases', label: 'Case Tracker' },
   { key: 'video', label: 'Video Consultation Booking' },
   { key: 'rights', label: 'Know Your Rights' },
-  { key: 'qa', label: 'Anonymous Q&A' },
-  { key: 'signin', label: 'Sign-In' }
+  { key: 'qa', label: 'Anonymous Q&A' }
 ];
 
 // PUBLIC_INTERFACE
@@ -461,11 +463,27 @@ function LegalDocsSection() {
     // Compose the simple simulated legal document (plain text format)
     let body = "";
     if (tmpl.key === "rental") {
-      body = `RENTAL AGREEMENT\n\nThis agreement is between ${vals.landlord} (Landlord) and ${vals.tenant} (Tenant) for the property at ${vals.address}.\nMonthly Rent: INR ${vals.rent} | Term: ${vals.term} months.\n\n[Signature]`;
+      body = `RENTAL AGREEMENT
+
+This agreement is between ${vals.landlord} (Landlord) and ${vals.tenant} (Tenant) for the property at ${vals.address}.
+Monthly Rent: INR ${vals.rent} | Term: ${vals.term} months.
+
+[Signature]`;
     } else if (tmpl.key === "affidavit") {
-      body = `AFFIDAVIT\n\nI, ${vals.deponent}, solemnly affirm that: ${vals.subject}.\nDate: ${vals.date} | Place: ${vals.place || '-'}\n\n[Signature]`;
+      body = `AFFIDAVIT
+
+I, ${vals.deponent}, solemnly affirm that: ${vals.subject}.
+Date: ${vals.date} | Place: ${vals.place || '-'}
+
+[Signature]`;
     } else if (tmpl.key === "nda") {
-      body = `NON-DISCLOSURE AGREEMENT\n\nThis NDA is made between ${vals.p1} and ${vals.p2}.\nPurpose: ${vals.purpose}\nValidity: ${vals.months} months\n\n[Signature]`;
+      body = `NON-DISCLOSURE AGREEMENT
+
+This NDA is made between ${vals.p1} and ${vals.p2}.
+Purpose: ${vals.purpose}
+Validity: ${vals.months} months
+
+[Signature]`;
     }
     setDownloadContent(body);
   }
