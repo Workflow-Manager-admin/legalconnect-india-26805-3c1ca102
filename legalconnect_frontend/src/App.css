@@ -128,9 +128,9 @@ body {
   min-width: 140px;
   max-width: 210px;
   height: calc(100vh - 68px);
-  background: #fff;
-  border-right: 1.5px solid var(--border);
-  box-shadow: 2px 0 12px rgba(26,35,126,0.04);
+  background: transparent !important;
+  border-right: none;
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   padding: 0;
