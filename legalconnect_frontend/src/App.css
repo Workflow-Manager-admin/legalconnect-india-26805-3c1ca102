@@ -357,6 +357,161 @@ a:focus-visible { outline: 2px solid var(--focus); }
 }
 
 /* ===== FORMS, INPUTS ===== */
+/* ==== FORM - VERTICAL STACKING, SPACING, ANIMATIONS ==== */
+.instant-lawyer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: fadeInUp 1.05s ease both;
+  will-change: opacity, transform;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.instant-lawyer-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 0;
+}
+
+.instant-lawyer-form label {
+  font-family: var(--font-heading);
+  font-size: 1.01rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+  margin-left: 1px;
+  letter-spacing: 0.01em;
+}
+
+.instant-lawyer-form input[type="text"],
+.instant-lawyer-form select {
+  font-family: var(--font-body);
+  font-size: 1.07rem;
+  border: 1.5px solid var(--navy);
+  border-radius: var(--border-radius);
+  padding: 12px 15px;
+  outline: none;
+  margin: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+  transition:
+    border-color 0.15s cubic-bezier(.66,.33,.21,1.06),
+    box-shadow 0.17s cubic-bezier(.46,.98,.47,.97),
+    background 0.23s;
+  background: #fff;
+}
+
+.instant-lawyer-form input[type="text"]:focus,
+.instant-lawyer-form select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(212,175,55,0.18);
+  background: #fcf7ed;
+}
+
+/* Subtle hover on input/select */
+.instant-lawyer-form input[type="text"]:hover,
+.instant-lawyer-form select:hover {
+  border-color: var(--gold-accent);
+  background: #fcfaf2;
+}
+
+.instant-lawyer-form option {
+  color: #333;
+}
+
+/* Subtle fade-in on load for section */
+.fade-in-section {
+  opacity: 0;
+  animation: fadeIn 1.13s cubic-bezier(.62,1,.16,.98) 0.07s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Main fade up for emphasis on section */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) scale(0.95);
+  }
+  68% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.008);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animate the button with scale/fade, modern hover/focus */
+.fade-in-btn {
+  opacity: 0;
+  transform: scale(0.99) translateY(13px);
+  animation: fadeBtn 1.2s cubic-bezier(.65,.09,.36,1.1) 0.32s forwards;
+}
+
+@keyframes fadeBtn {
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Button hover/focus for extra feedback */
+.instant-lawyer-form .btn,
+.instant-lawyer-form .btn-accent {
+  transition:
+      background 0.15s cubic-bezier(.60,1,.36,.98),
+      color 0.14s,
+      box-shadow 0.16s,
+      transform 0.13s;
+}
+.instant-lawyer-form .btn:hover,
+.instant-lawyer-form .btn:focus-visible,
+.instant-lawyer-form .btn-accent:hover,
+.instant-lawyer-form .btn-accent:focus-visible {
+  transform: scale(1.03);
+  box-shadow: 0 5px 20px 0 rgba(212,175,55,0.13), 0 1.5px 9px rgba(13,27,42, 0.13);
+  background: var(--gold-accent);
+  color: var(--navy) !important;
+}
+
+@media (max-width: 700px) {
+  .instant-lawyer-form {
+    padding: 18px 6vw !important;
+    gap: 13px;
+  }
+  .instant-lawyer-form label {
+    font-size: 0.98rem;
+  }
+  .instant-lawyer-form input[type="text"],
+  .instant-lawyer-form select {
+    font-size: 0.99rem;
+    padding: 10px 10px;
+  }
+}
+
+/* MOBILE improvement for touch/spacing */
+@media (max-width: 440px) {
+  .instant-lawyer-form {
+    padding: 8px 2vw !important;
+    gap: 11px;
+  }
+  .container.instant-lawyer-form {
+    padding: 5px 3px !important;
+  }
+  .instant-lawyer-form input[type="text"],
+  .instant-lawyer-form select {
+    padding: 10px 7px;
+    font-size: 0.97rem;
+  }
+}
+
 input[type="text"], select {
   font-family: var(--font-body);
   font-size: 1rem;
