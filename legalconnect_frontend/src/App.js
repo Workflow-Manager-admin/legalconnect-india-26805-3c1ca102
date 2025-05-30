@@ -252,18 +252,148 @@ function FeaturesStackedSections({ setActiveFeature }) {
   );
 }
 
-// PUBLIC_INTERFACE
-function LegalDocsSection() {
+/**
+ * PUBLIC_INTERFACE
+ * Instant Lawyer Match: dynamic, interactive form and live lawyer-matching simulation.
+ */
+function InstantLawyerMatchSection() {
+  const [values, setValues] = useState({
+    issue: "",
+    urgency: "Normal",
+    budget: "",
+    location: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
+  const [results, setResults] = useState([]);
+
+  // Simple static demo lawyer DB
+  const LAWYERS = [
+    { name: 'Ritu Sharma', specialization: 'Property', rating: 4.7, location: 'Delhi', exp: 8 },
+    { name: 'Amit Singh', specialization: 'Criminal', rating: 4.9, location: 'Bangalore', exp: 11 },
+    { name: 'Priya Menon', specialization: 'Family', rating: 4.8, location: 'Mumbai', exp: 6 },
+    { name: 'Harish Yadav', specialization: 'Civil', rating: 4.6, location: 'Pune', exp: 10 },
+    { name: 'Leena Nair', specialization: 'Cyber', rating: 4.8, location: 'Hyderabad', exp: 9 },
+    { name: 'Sushil Patil', specialization: 'Corporate', rating: 4.7, location: 'Delhi', exp: 7 },
+  ];
+
+  // PUBLIC_INTERFACE
+  function handleChange(evt) {
+    setValues({ ...values, [evt.target.name]: evt.target.value });
+  }
+
+  // PUBLIC_INTERFACE
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    // Simulate filtered results based on specialization from "issue"
+    let issue = values.issue.toLowerCase();
+    const match = LAWYERS.filter(l =>
+      (!values.location || l.location.toLowerCase().includes(values.location.toLowerCase())) &&
+      (issue
+        ? l.specialization.toLowerCase().includes(issue) ||
+          (issue.includes('property') && l.specialization === 'Property') ||
+          (issue.includes('criminal') && l.specialization === 'Criminal') ||
+          (issue.includes('family') && l.specialization === 'Family') ||
+          (issue.includes('cyber') && l.specialization === 'Cyber') ||
+          (issue.includes('civil') && l.specialization === 'Civil') ||
+          (issue.includes('company') && l.specialization === 'Corporate')
+        : true)
+    );
+    // Return at most three by rating then experience
+    setResults(
+      [...match]
+        .sort((a, b) => b.rating - a.rating || b.exp - a.exp)
+        .slice(0, 3)
+    );
+    setSubmitted(true);
+  }
+
+  // PUBLIC_INTERFACE
+  function reset() {
+    setSubmitted(false);
+    setResults([]);
+    setValues({ issue: "", urgency: "Normal", budget: "", location: "" });
+  }
+
   return (
-    <section tabIndex={-1} className="stacked-feature-section feature-section-legal-docs">
+    <section tabIndex={-1} className="stacked-feature-section" aria-label="Instant Lawyer Match">
       <div className="stacked-feature-inner">
-        <span className="stacked-feature-icon" aria-hidden="true">📄</span>
-        <h2 className="stacked-feature-heading">Legal Document Generator</h2>
-        <div className="stacked-feature-desc">
-          Select, fill, and download custom Indian legal document templates such as agreements or affidavits.<br /><br />
-          <em>Full interactive generator coming soon.</em>
+        <span className="stacked-feature-icon" aria-hidden="true">🔍</span>
+        <h2 className="stacked-feature-heading">Instant Lawyer Match</h2>
+        <div className="stacked-feature-desc" style={{marginBottom: 18}}>
+          Fill in your legal issue to see matched lawyers instantly, filtered by specialization and location.
         </div>
-        <button className="btn btn-accent btn-large" disabled>Start Document (Stub)</button>
+        <form className="instant-lawyer-form" onSubmit={handleSubmit} autoComplete="off">
+          <div className="form-group">
+            <label htmlFor="issue">Describe your Legal Issue<span style={{ color: "#b50a46" }}>*</span></label>
+            <input
+              id="issue"
+              name="issue"
+              required
+              value={values.issue}
+              onChange={handleChange}
+              placeholder="E.g. rental dispute, cyber fraud, divorce..."
+              type="text"
+              autoFocus
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="urgency">Urgency</label>
+            <select
+              id="urgency"
+              name="urgency"
+              value={values.urgency}
+              onChange={handleChange}
+            >
+              <option>Normal</option>
+              <option>Urgent</option>
+              <option>Emergency</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="budget">Budget (Optional)</label>
+            <input
+              id="budget"
+              name="budget"
+              value={values.budget}
+              onChange={handleChange}
+              type="text"
+              placeholder="E.g. 1000-10000 INR"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="location">Preferred Location (Optional)</label>
+            <input
+              id="location"
+              name="location"
+              value={values.location}
+              onChange={handleChange}
+              type="text"
+              placeholder="E.g. Delhi, Mumbai..."
+            />
+          </div>
+          <button className="btn btn-accent btn-large fade-in-btn" style={{marginTop: 2}} type="submit">Find Lawyers</button>
+        </form>
+        {submitted && (
+          <div style={{ marginTop: 30, width: '100%' }}>
+            <h3 style={{fontFamily: "Montserrat, Lato, Arial, sans-serif", fontWeight: 700, color: "#0D1B2A", fontSize: "1.17em", marginBottom: 2}}>Recommended Lawyers</h3>
+            {results.length === 0 ? (
+              <div style={{margin: "10px 0", color: "#b50a46"}}>No suitable lawyers found for your criteria.</div>
+            ) : (
+              <ul style={{padding: 0, listStyle: "none", marginTop: 8}}>
+                {results.map((l, idx) => (
+                  <li key={l.name} style={{
+                    marginBottom: 13, padding: "13px 18px",
+                    background: "#fcf7ed", borderRadius: 6, boxShadow: "0 1.5px 8px rgba(212,175,55,0.11)"
+                  }}>
+                    <strong>{l.name}</strong> ({l.specialization}) <span style={{color: "#FFD700"}}>★ {l.rating}</span><br />
+                    <span style={{fontSize: "0.94em", color: "#444"}}>{l.exp} yrs exp. | {l.location}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <button className="btn" onClick={reset} style={{marginTop: 2}}>Match Again</button>
+          </div>
+        )}
       </div>
     </section>
   );
