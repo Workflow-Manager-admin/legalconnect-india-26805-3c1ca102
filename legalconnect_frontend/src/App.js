@@ -399,18 +399,109 @@ function InstantLawyerMatchSection() {
   );
 }
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * Case Tracker: Interactive timeline; clicking a step marks it active and cycles.
+ */
 function CaseTrackerSection() {
+  // Demo cases/timeline statuses
+  const [cases, setCases] = useState([
+    {
+      id: 1,
+      title: "Property Dispute (Delhi)",
+      timeline: [
+        { label: "Consultation", date: "2024-03-01", done: true },
+        { label: "Case Filed", date: "2024-03-15", done: true },
+        { label: "Court Hearing: #1", date: "2024-05-10", done: true },
+        { label: "Next Hearing", date: "2024-08-14", done: false }
+      ]
+    },
+    {
+      id: 2,
+      title: "Cyber Complaint (Hyderabad)",
+      timeline: [
+        { label: "Consultation", date: "2024-04-10", done: true },
+        { label: "FIR Lodged", date: "2024-04-14", done: true },
+        { label: "Police Report", date: "-", done: false },
+        { label: "Case Closed", date: "-", done: false }
+      ]
+    },
+  ]);
+
+  const [activeCase, setActiveCase] = useState(0);
+
+  // PUBLIC_INTERFACE
+  function toggleMilestone(ci, mi) {
+    setCases(arr =>
+      arr.map((c, idx) =>
+        idx !== ci
+          ? c
+          : {
+              ...c,
+              timeline: c.timeline.map((step, sidx) =>
+                sidx === mi
+                  ? { ...step, done: !step.done }
+                  : step
+              )
+            }
+      )
+    );
+  }
+
   return (
-    <section tabIndex={-1} className="stacked-feature-section feature-section-case-tracker">
+    <section tabIndex={-1} className="stacked-feature-section feature-section-case-tracker" aria-label="Case Tracker">
       <div className="stacked-feature-inner">
         <span className="stacked-feature-icon" aria-hidden="true">🗂️</span>
         <h2 className="stacked-feature-heading">Case Tracker</h2>
         <div className="stacked-feature-desc">
-          Timeline view for your ongoing cases, complete with court hearing dates and alert notifications.<br /><br />
-          <em>Case dashboard feature coming soon.</em>
+          Your ongoing law cases—timeline of hearings &amp; important milestones.<br />
         </div>
-        <button className="btn btn-accent btn-large" disabled>View My Cases (Stub)</button>
+        <div style={{marginTop: 12}}>
+          <label htmlFor="casePicker" style={{fontWeight: 600}}>Select Case:</label>{" "}
+          <select
+            id="casePicker"
+            style={{marginLeft: 6, marginBottom: 10}}
+            value={activeCase}
+            onChange={e => setActiveCase(Number(e.target.value))}
+          >
+            {cases.map((c, idx) => (
+              <option key={c.id} value={idx}>{c.title}</option>
+            ))}
+          </select>
+        </div>
+        <ol style={{ listStyle: "none", padding: 0, margin: "16px 0 0 3px" }}>
+          {cases[activeCase].timeline.map((step, i) => (
+            <li key={i}
+              tabIndex={0}
+              style={{
+                padding: "10px 10px", margin: "8px 0",
+                background: step.done ? "#E9F1F8" : "#fcfaf2",
+                borderRadius: 5,
+                borderLeft: step.done ? "5px solid #1A237E" : "5px solid #FFD700",
+                cursor: "pointer", display: "flex", alignItems: "center"
+              }}
+              onClick={() => toggleMilestone(activeCase, i)}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') toggleMilestone(activeCase, i); }}
+              aria-label={`Step ${step.label} - ${step.done ? "done" : "pending"}`}
+            >
+              <span style={{
+                fontSize: 21,
+                color: step.done ? "#1A237E" : "#FFD700",
+                marginRight: 12
+              }}>{step.done ? "✔️" : "⬜"}</span>
+              <span>
+                <strong>{step.label}</strong> {step.date && step.date !== '-' ? <span style={{color:"#474"}}>({step.date})</span> : ''}
+                <span style={{
+                  marginLeft: 10, color: step.done ? "#888" : "#B80C09",
+                  fontWeight: 500, fontSize: '0.96em'
+                }}>{step.done ? "Completed" : "Pending"}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+        <div style={{ color: "#888", fontSize: "0.98em", marginTop: 15 }}>
+          Click or press <span style={{fontWeight:600}}>Enter</span> to mark timeline step as complete/incomplete.
+        </div>
       </div>
     </section>
   );
