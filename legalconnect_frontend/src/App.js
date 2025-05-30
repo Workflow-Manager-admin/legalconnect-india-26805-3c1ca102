@@ -231,15 +231,15 @@ function FeatureHighlights() {
             flex: "1 1 170px",
             minWidth: 140,
             maxWidth: 200,
-            background: "var(--neutral-bg)",
-            border: "1.3px solid var(--border)",
-            borderRadius: 8,
+            background: "transparent",
+            border: "none",
+            borderRadius: 0,
             padding: "13px 12px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             gap: 5,
-            boxShadow: "0 1.5px 8px rgba(26,35,126, 0.03)"
+            boxShadow: "none"
           }}
         >
           <span style={{ fontSize: "2.2rem", color: "var(--primary)" }}>{f.icon}</span>
@@ -307,18 +307,6 @@ function AnonymousForumPlaceholder() {
   );
 }
 
-// PUBLIC_INTERFACE
-function SignInPlaceholder() {
-  return (
-    <section className="hero" tabIndex={-1} style={{ alignItems: "flex-start" }}>
-      <h1 className="title"><span role="img" aria-label="Sign In" style={{ marginRight: 10 }}>👤</span>Sign In</h1>
-      <div className="description">
-        Secure sign-in for personalized features like case tracking and bookings.<br /><br />
-        <em>Secure sign-in coming soon.</em>
-      </div>
-      <button className="btn btn-accent btn-large" disabled>Sign In (Stub)</button>
-    </section>
-  );
-}
+
 
 export default App;
