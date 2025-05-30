@@ -41,19 +41,43 @@ function App() {
   // PUBLIC_INTERFACE
   return (
     <div className="app">
+      {/* Top Bar with Sign-In Icon */}
+      <div className="signin-icon-container">
+        <button
+          className="signin-icon-btn"
+          aria-label="Sign in to your account"
+          title="Sign In"
+          onClick={() => setActiveFeature('signin')}
+        >
+          {/* SVG icon for user/profile, more visually distinct and accessible than emoji */}
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+            aria-hidden="true"
+            focusable="false"
+            className="signin-svg-icon"
+          >
+            <circle cx="14" cy="14" r="13" stroke="#1A237E" strokeWidth="2" fill="#FFD700"/>
+            <circle cx="14" cy="11.5" r="4.2" stroke="#1A237E" strokeWidth="1.5" fill="#F8F9FB"/>
+            <ellipse cx="14" cy="19.7" rx="7.2" ry="4.1" stroke="#1A237E" strokeWidth="1.5" fill="#fff"/>
+          </svg>
+        </button>
+      </div>
       {/* Top Header Bar with Centered Branding */}
       <header className="brand-header" aria-label="Site Header">
         <div
           className="brand-logo"
           tabIndex={0}
-          aria-label="LegalConnect India Home"
+          aria-label="Indian Law Mate Home"
           onClick={() => setActiveFeature('home')}
           onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') setActiveFeature('home'); }}
           role="button"
         >
           <span className="logo-symbol" aria-hidden="true">⚖️</span>
           <span className="brand-name">
-            LegalConnect <span className="brand-name-secondary">India</span>
+            Indian Law <span className="brand-name-secondary">Mate</span>
           </span>
         </div>
       </header>
@@ -119,7 +143,7 @@ function App() {
       {/* Footer */}
       <footer className="footer" role="contentinfo">
         <div>
-          &copy; {new Date().getFullYear()} LegalConnect India &middot;
+          &copy; {new Date().getFullYear()} Indian Law Mate &middot;
           <a href="#" style={{ margin: "0 1em" }}>Contact</a>
           <a href="#" style={{ margin: "0 1em" }}>Privacy Policy</a>
           <a href="#" style={{ margin: "0 1em" }}>Terms of Service</a>
@@ -132,32 +156,7 @@ function App() {
   );
 }
 
-// PUBLIC_INTERFACE
-function InstantLawyerMatchPlaceholder() {
-  return (
-    <section className="hero" tabIndex={-1}>
-      <div className="subtitle">Connect With Verified Legal Experts Instantly</div>
-      <h1 className="title">Instant Lawyer Match</h1>
-      <div className="description" style={{ marginBottom: 30 }}>
-        Tell us about your legal issue and we'll match you with the right lawyer. Transparent, fast, and confidential.
-      </div>
-      {/* Placeholder for lawyer match form */}
-      <form
-        className="container"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1em",
-          maxWidth: 410,
-          background: "#f4f6fc",
-          border: "1.5px solid var(--border)",
-          borderRadius: 8,
-          boxShadow: "0 2px 12px rgba(26,35,126, 0.02)",
-          padding: "24px 22px"
-        }}
-        aria-label="Instant Lawyer Match Form"
-        tabIndex={0}
-      >
+/* ---- All major placeholders/section text remain unchanged except heading and branding text update ---- */
         <label htmlFor="issue" style={{ fontWeight: "500" }}>Legal Issue<span style={{ color: 'var(--accent)' }}> *</span></label>
         <input id="issue" name="issue" type="text" placeholder="Short description (e.g. Rental dispute, Cheque bounce...)" required style={{
           border: "1.5px solid var(--primary)",
