@@ -449,4 +449,5 @@ input[type="text"], select {
   .title { font-size: 1.33rem; }
   .subtitle { font-size: 0.93rem; }
   .brand-header { min-height: 48px; height: 48px; }
+  .signin-icon-container { top: 1.3vw; left: 7vw; }
 }
