@@ -40,119 +40,121 @@ function App() {
 
   // PUBLIC_INTERFACE
   return (
-    <div className="app">
-      {/* Top Bar with Sign-In Icon */}
-      <div className="signin-icon-container">
-        <button
-          className="signin-icon-btn"
-          aria-label="Sign in to your account"
-          title="Sign In"
-          onClick={() => setActiveFeature('signin')}
-        >
-          {/* SVG icon for user/profile, more visually distinct and accessible than emoji */}
-          <svg
-            width="28"
-            height="28"
-            viewBox="0 0 28 28"
-            fill="none"
-            aria-hidden="true"
-            focusable="false"
-            className="signin-svg-icon"
+    <>
+      <div className="app">
+        {/* Top Bar with Sign-In Icon */}
+        <div className="signin-icon-container">
+          <button
+            className="signin-icon-btn"
+            aria-label="Sign in to your account"
+            title="Sign In"
+            onClick={() => setActiveFeature('signin')}
           >
-            <circle cx="14" cy="14" r="13" stroke="#1A237E" strokeWidth="2" fill="#FFD700"/>
-            <circle cx="14" cy="11.5" r="4.2" stroke="#1A237E" strokeWidth="1.5" fill="#F8F9FB"/>
-            <ellipse cx="14" cy="19.7" rx="7.2" ry="4.1" stroke="#1A237E" strokeWidth="1.5" fill="#fff"/>
-          </svg>
-        </button>
-      </div>
-      {/* Top Header Bar with Centered Branding */}
-      <header className="brand-header" aria-label="Site Header">
-        <div
-          className="brand-logo"
-          tabIndex={0}
-          aria-label="Indian Law Mate Home"
-          onClick={() => setActiveFeature('home')}
-          onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') setActiveFeature('home'); }}
-          role="button"
-        >
-          <span className="logo-symbol" aria-hidden="true">⚖️</span>
-          <span className="brand-name">
-            Indian Law <span className="brand-name-secondary">Mate</span>
-          </span>
-        </div>
-      </header>
-
-      {/* Hamburger menu for sidebar on mobile */}
-      <button 
-        aria-label="Open navigation menu" 
-        className="sidebar-toggle"
-        onClick={() => setSidebarOpen(true)}
-        style={{ display: 'none' }}
-        id="sidebar-toggle"
-      >
-        <span aria-hidden="true" style={{fontSize: "2em"}}>☰</span>
-      </button>
-
-      <div className="layout">
-        {/* Sidebar */}
-        <aside
-          className={`sidebar${sidebarOpen ? ' open' : ''}`}
-          aria-label="Feature navigation"
-        >
-          <nav>
-            {/* Mobile close button */}
-            <button 
-              tabIndex={sidebarOpen ? 0 : -1}
-              className="sidebar-close"
-              aria-label="Close navigation menu"
-              onClick={() => setSidebarOpen(false)}
+            {/* SVG icon for user/profile, more visually distinct and accessible than emoji */}
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+              aria-hidden="true"
+              focusable="false"
+              className="signin-svg-icon"
             >
-              ×
-            </button>
-            <ul className="sidebar-nav-list">
-              {navLinks.map(link => (
-                <li key={link.key}>
-                  <button
-                    className={`sidebar-nav-btn${activeFeature === link.key ? " active" : ""}`}
-                    aria-current={activeFeature === link.key ? "page" : undefined}
-                    tabIndex={0}
-                    aria-label={`${link.label}: ${link.desc}`}
-                    onClick={() => { setActiveFeature(link.key); setSidebarOpen(false); }}
-                    onKeyPress={(e) => { if (e.key === 'Enter' || e.key === ' ') { setActiveFeature(link.key); setSidebarOpen(false);} }}
-                  >
-                    <span className="sidebar-icon" aria-hidden="true">{link.icon}</span>
-                    <span>{link.label}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </aside>
-        
-        {/* Main Content */}
-        <main
-          id="main-content"
-          className="main-content"
-          tabIndex={-1}
-          aria-live="polite"
-        >
-          {renderMainContent()}
-        </main>
-      </div>
+              <circle cx="14" cy="14" r="13" stroke="#1A237E" strokeWidth="2" fill="#FFD700"/>
+              <circle cx="14" cy="11.5" r="4.2" stroke="#1A237E" strokeWidth="1.5" fill="#F8F9FB"/>
+              <ellipse cx="14" cy="19.7" rx="7.2" ry="4.1" stroke="#1A237E" strokeWidth="1.5" fill="#fff"/>
+            </svg>
+          </button>
+        </div>
+        {/* Top Header Bar with Centered Branding */}
+        <header className="brand-header" aria-label="Site Header">
+          <div
+            className="brand-logo"
+            tabIndex={0}
+            aria-label="Indian Law Mate Home"
+            onClick={() => setActiveFeature('home')}
+            onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') setActiveFeature('home'); }}
+            role="button"
+          >
+            <span className="logo-symbol" aria-hidden="true">⚖️</span>
+            <span className="brand-name">
+              Indian Law <span className="brand-name-secondary">Mate</span>
+            </span>
+          </div>
+        </header>
 
-      {/* Footer */}
-      <footer className="footer" role="contentinfo">
-        <div>
-          &copy; {new Date().getFullYear()} Indian Law Mate &middot;
-          <a href="#" style={{ margin: "0 1em" }}>Contact</a>
-          <a href="#" style={{ margin: "0 1em" }}>Privacy Policy</a>
-          <a href="#" style={{ margin: "0 1em" }}>Terms of Service</a>
+        {/* Hamburger menu for sidebar on mobile */}
+        <button 
+          aria-label="Open navigation menu" 
+          className="sidebar-toggle"
+          onClick={() => setSidebarOpen(true)}
+          style={{ display: 'none' }}
+          id="sidebar-toggle"
+        >
+          <span aria-hidden="true" style={{fontSize: "2em"}}>☰</span>
+        </button>
+
+        <div className="layout">
+          {/* Sidebar */}
+          <aside
+            className={`sidebar${sidebarOpen ? ' open' : ''}`}
+            aria-label="Feature navigation"
+          >
+            <nav>
+              {/* Mobile close button */}
+              <button 
+                tabIndex={sidebarOpen ? 0 : -1}
+                className="sidebar-close"
+                aria-label="Close navigation menu"
+                onClick={() => setSidebarOpen(false)}
+              >
+                ×
+              </button>
+              <ul className="sidebar-nav-list">
+                {navLinks.map(link => (
+                  <li key={link.key}>
+                    <button
+                      className={`sidebar-nav-btn${activeFeature === link.key ? " active" : ""}`}
+                      aria-current={activeFeature === link.key ? "page" : undefined}
+                      tabIndex={0}
+                      aria-label={`${link.label}: ${link.desc}`}
+                      onClick={() => { setActiveFeature(link.key); setSidebarOpen(false); }}
+                      onKeyPress={(e) => { if (e.key === 'Enter' || e.key === ' ') { setActiveFeature(link.key); setSidebarOpen(false);} }}
+                    >
+                      <span className="sidebar-icon" aria-hidden="true">{link.icon}</span>
+                      <span>{link.label}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </aside>
+          
+          {/* Main Content */}
+          <main
+            id="main-content"
+            className="main-content"
+            tabIndex={-1}
+            aria-live="polite"
+          >
+            {renderMainContent()}
+          </main>
         </div>
-        <div className="footer-motto">
-          Empowering Every Legal Journey – Indian Law, Accessible to All
-        </div>
-      </footer>
-    </div>
+
+        {/* Footer */}
+        <footer className="footer" role="contentinfo">
+          <div>
+            &copy; {new Date().getFullYear()} Indian Law Mate &middot;
+            <a href="#" style={{ margin: "0 1em" }}>Contact</a>
+            <a href="#" style={{ margin: "0 1em" }}>Privacy Policy</a>
+            <a href="#" style={{ margin: "0 1em" }}>Terms of Service</a>
+          </div>
+          <div className="footer-motto">
+            Empowering Every Legal Journey – Indian Law, Accessible to All
+          </div>
+        </footer>
+      </div>
+    </>
   );
 }
 
