@@ -1,5 +1,5 @@
 :root {
-  /* LegalConnect India Brand Colors */
+  /* Indian Law Mate Brand Colors */
   --primary: #1A237E;     /* Navy Blue */
   --secondary: #FFD700;   /* Gold */
   --accent: #4CAF50;      /* Green */
@@ -8,6 +8,10 @@
   --text-contrast: #fff;
   --border: #e0e2ea;
   --focus: #1741b6;
+
+  /* Law background image - scales for all screens */
+  --law-bg-img: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1650&q=80');
+  /* (Photo by Tingey Injury Law Firm on Unsplash, CC0 Public Domain, suitable for commercial use) */
 }
 
 /* ===== CSS RESET / ACCESSIBLE BASE ===== */
@@ -23,14 +27,21 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-  background: var(--neutral-bg);
   color: var(--text);
   font-size: 1rem;
   line-height: 1.7;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Law-themed background: subtle color overlay for readability */
+  background-image:
+    linear-gradient(rgba(26, 35, 126, 0.18), rgba(248,249,251, 0.83)),
+    var(--law-bg-img);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
 
 /* ===== APP LAYOUT ===== */
 .app {
