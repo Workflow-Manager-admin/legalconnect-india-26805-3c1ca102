@@ -610,3 +610,104 @@ section {
   border-radius: 5px;
 }
 /* -- End legalconnect new law services theme adjustments -- */
+
+/* ========= Features Section (Homepage Cards) ========== */
+.features-section {
+  padding: 38px 0 10px 0;
+  background: var(--soft-white);
+  /* subtle separation from form above */
+  animation: fadeIn 0.9s;
+}
+
+.features-section-heading {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  color: var(--navy);
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.features-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+  align-items: stretch;
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+
+.feature-card {
+  background: #fff;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2.5px 18px 0 rgba(13,27,42, 0.06), 0 1.4px 4.8px rgba(210,180,60,0.08);
+  border: 1.5px solid var(--divider);
+  flex: 1 1 250px;
+  min-width: 200px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 31px 22px 22px 22px;
+  margin: 0;
+  transition: box-shadow 0.18s, border-color 0.18s, transform 0.18s;
+  position: relative;
+}
+
+.feature-card:hover,
+.feature-card:focus-within {
+  box-shadow: 0 5.5px 30px 0 rgba(212,175,55, 0.13), 0 0.5px 17px rgba(13,27,42, 0.15);
+  border-color: var(--gold);
+  transform: translateY(-3px) scale(1.025);
+  z-index: 1;
+}
+
+.feature-icon {
+  font-size: 2.7rem;
+  color: var(--navy);
+  margin-bottom: 14px;
+  padding-bottom: 0;
+  text-shadow: 0 1.5px 5px rgba(230,220,128,0.07);
+}
+
+.feature-title {
+  font-family: var(--font-heading);
+  font-size: 1.11rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 6px;
+  margin-top: 0;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+.feature-desc {
+  font-family: var(--font-body);
+  font-size: 1.03rem;
+  color: #283141;
+  letter-spacing: 0.01em;
+  text-align: center;
+  line-height: 1.52;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1100px) {
+  .features-grid { gap: 18px; }
+  .feature-card { min-width: 170px; max-width: 320px; padding: 27px 9px 18px 9px;}
+}
+@media (max-width: 700px) {
+  .features-section { padding: 17px 0 5px 0; }
+  .features-section-heading { font-size: 1.11rem; margin-bottom: 4px; }
+  .features-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  .feature-card {
+    max-width: 96vw;
+    min-width: 66vw;
+    padding: 18px 6vw;
+  }
+  .feature-title { font-size: 1rem; }
+  .feature-desc { font-size: 0.98rem; }
+}
