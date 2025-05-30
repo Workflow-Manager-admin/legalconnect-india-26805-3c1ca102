@@ -382,7 +382,7 @@ input[type="text"], select {
   color: #313140;
   border-top: 1px solid var(--border);
   padding: 28px 0 20px 0;
-  background: var(--neutral-bg);
+  background: transparent !important;
   width: 100%;
 }
 .footer-motto {

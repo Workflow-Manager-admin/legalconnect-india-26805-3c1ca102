@@ -147,10 +147,10 @@ function InstantLawyerMatchPlaceholder() {
           flexDirection: "column",
           gap: "1em",
           maxWidth: 410,
-          background: "#f4f6fc",
-          border: "1.5px solid var(--border)",
-          borderRadius: 8,
-          boxShadow: "0 2px 12px rgba(26,35,126, 0.02)",
+          background: "transparent",
+          border: "none",
+          borderRadius: 0,
+          boxShadow: "none",
           padding: "24px 22px"
         }}
         aria-label="Instant Lawyer Match Form"
