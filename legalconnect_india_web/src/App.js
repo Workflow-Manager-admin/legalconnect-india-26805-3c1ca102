@@ -496,7 +496,10 @@ function LegalDocsGenerator() {
     // Basic rendering, no backend
     if (!selected) return;
     const docText =
-      `LegalConnect: ${templates.find(x=>x.id===selected).label}\nName: ${filled.name}\nSecond Party: ${filled.party}\nDate: ${filled.date}`;
+      `LegalConnect: ${templates.find(x=>x.id===selected).label}
+Name: ${filled.name}
+Second Party: ${filled.party}
+Date: ${filled.date}`;
     setDownload(docText);
   }
 
@@ -817,10 +820,126 @@ function App() {
       minHeight: "100vh"
     }}>
       <FontsPreload />
-      <Navbar
-        onSignIn={() => setSignModal(true)}
-        signedIn={!!signedName}
-      />
+      {/* Header Zone - centered main title */}
+      <div style={{
+        width: "100%",
+        background: COLORS.primary,
+        padding: "0",
+        margin: "0",
+        position: "relative"
+      }}>
+        <div
+          className="main-header-title"
+          style={{
+            textAlign: "center",
+            color: "#fff",
+            fontWeight: 900,
+            fontFamily: FONT_HEADING,
+            fontSize: "2.6rem",
+            letterSpacing: ".012em",
+            padding: "32px 0 10px 0",
+            margin: 0,
+            lineHeight: 1.14,
+            background: "none",
+            border: "none"
+          }}
+        >
+          <span style={{fontSize:"2.2rem", verticalAlign:"middle", marginRight:8}}>⚖️</span>
+          LegalConnect <span style={{color:COLORS.accent, fontWeight:900}}>India</span>
+        </div>
+      </div>
+
+      {/* Vertically stacked main nav/features, center-aligned */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "100%",
+          gap: 30,
+          margin: "0 auto",
+        }}
+      >
+        {/* Main options/features/links */}
+        <div
+          className="main-options-stack"
+          style={{
+            marginTop: 28,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 24,
+            width: "100%",
+            maxWidth: 400
+          }}
+        >
+          {/* List main nav/features vertically with icons */}
+          {NAV_LINKS.map(link => (
+            <a
+              key={link.anchor}
+              href={`#${link.anchor}`}
+              tabIndex={0}
+              style={{
+                width: "100%",
+                minWidth: 200,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: COLORS.primary,
+                color: COLORS.accent,
+                fontFamily: FONT_HEADING,
+                fontWeight: 700,
+                fontSize: "1.19rem",
+                borderRadius: 7,
+                margin: 0,
+                padding: "10px 18px",
+                gap: 13,
+                textDecoration: "none",
+                boxShadow: COLORS.shadow,
+                transition: "background .15s, color .15s"
+              }}
+              onFocus={e => e.target.style.background = COLORS.blackOverlay}
+              onBlur={e => e.target.style.background = COLORS.primary}
+              onMouseOver={e => {
+                e.target.style.background = COLORS.accent;
+                e.target.style.color = COLORS.primary;
+              }}
+              onMouseOut={e => {
+                e.target.style.background = COLORS.primary;
+                e.target.style.color = COLORS.accent;
+              }}
+              aria-label={link.label}
+            >
+              {icons[link.anchor] ?? icons.lawyer}
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Sign In button - centered below options */}
+        <div style={{marginTop: 10, width: "100%", textAlign: "center"}}>
+          <button
+            className="btn btn-large"
+            style={{
+              background: COLORS.accent,
+              color: COLORS.primary,
+              fontWeight: 900,
+              fontFamily: FONT_HEADING,
+              fontSize: "1.13rem",
+              borderRadius: 8,
+              padding: "13px 36px",
+              boxShadow: COLORS.shadow,
+              margin: "0 auto",
+              border: "none"
+            }}
+            onClick={() => setSignModal(true)}
+            aria-label="Sign In"
+          >{icons.signIn} <span style={{marginLeft:3, color: COLORS.primary, fontWeight:700}}>{signedName ? "Signed In" : "Sign In"}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Sign In Modal (remains above content as needed) */}
       {signModal && (
         <SignInModal
           open={signModal}
@@ -828,40 +947,59 @@ function App() {
           onSignedIn={setSignedName}
         />
       )}
-      <HeroHeader />
-      <div style={{display:"flex", margin: "0 auto", maxWidth: 1418, width: "100%"}}>
-        {showSidebar && (
-          <SidebarNav onNavigate={handleNav}/>
-        )}
+
+      {/* Page Content: Centered horizontally */}
+      <div style={{
+        display: "flex",
+        width: "100%",
+        justifyContent: "center",
+        marginTop: 35,
+      }}>
         <main
           className="container"
           tabIndex={0}
           style={{
-            marginTop: 0,
-            marginLeft: showSidebar ? 0 : undefined,
-            flexGrow: 1,
-            padding: showSidebar ? "0 7% 0 80px" : "0 0 0 0",
-            minHeight: "90vh"
+            margin: "0 auto",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
+            maxWidth: 1100,
+            minHeight: "76vh",
+            background: "transparent",
+            paddingBottom: 0,
           }}
           aria-labelledby="main-content"
         >
-          {/* Main sections, all modular, ample white space, soft dividers */}
-          <InstantLawyerMatch />
+          {/* Hero/Welcome (centered) */}
+          <HeroHeader />
+          {/* Main feature sections, all horizontally centered */}
           <div style={{
             display:"flex",
-            flexWrap:"wrap",
-            gap:36,
-            justifyContent:"space-evenly",
-            marginBottom:0
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 44,
+            width: "100%",
           }}>
-            <LegalDocsGenerator />
-            <CaseTracker />
-            <VideoConsultBooking />
+            {/* Center main content sections */}
+            <InstantLawyerMatch />
+            <div style={{
+              display:"flex",
+              flexWrap:"wrap",
+              gap:36,
+              justifyContent:"center",
+              width: "100%"
+            }}>
+              <LegalDocsGenerator />
+              <CaseTracker />
+              <VideoConsultBooking />
+            </div>
+            <KnowYourRights />
+            <AnonymousForum />
           </div>
-          <KnowYourRights />
-          <AnonymousForum />
         </main>
       </div>
+
       <Footer />
     </div>
   );
