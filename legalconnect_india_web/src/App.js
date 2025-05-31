@@ -812,6 +812,43 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Responsive: handle mobile horizontal navigation menu
+  const [navOpen, setNavOpen] = React.useState(false);
+  React.useEffect(() => {
+    function handleResizeNav() {
+      const navToggle = document.getElementById('mobile-nav-toggle');
+      const navLinks = document.getElementById('main-horizontal-features');
+      if (window.innerWidth <= 650) {
+        if (navToggle) navToggle.style.display = 'flex';
+        if (navLinks) {
+          navLinks.classList.toggle('mobile-closed', !navOpen);
+          navLinks.style.flexDirection = 'column';
+        }
+      } else {
+        if (navToggle) navToggle.style.display = 'none';
+        if (navLinks) {
+          navLinks.classList.remove('mobile-closed');
+          navLinks.style.flexDirection = 'row';
+        }
+        setNavOpen(false);
+      }
+    }
+    handleResizeNav();
+    window.addEventListener('resize', handleResizeNav);
+    // Toggle handler
+    const navToggle = document.getElementById('mobile-nav-toggle');
+    if (navToggle) {
+      navToggle.onclick = () => setNavOpen(p => !p);
+      navToggle.setAttribute('aria-expanded', navOpen);
+    }
+    // Update nav menu on open/close
+    const navLinks = document.getElementById('main-horizontal-features');
+    if (window.innerWidth <= 650 && navLinks) {
+      navLinks.classList.toggle('mobile-closed', !navOpen);
+    }
+    return () => window.removeEventListener('resize', handleResizeNav);
+  }, [navOpen]);
+
   return (
     <div className="app" style={{
       background: COLORS.background,
