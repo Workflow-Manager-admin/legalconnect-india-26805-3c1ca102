@@ -834,8 +834,83 @@ function NavigationBar() {
 }
 
 // --- MAIN CONTAINER W/ ROUTES ---
+function SignUpModal({ open, onClose }) {
+  const [fields, setFields] = useState({ name: '', email: '', password: '', confirm: '' });
+  const [submitted, setSubmitted] = useState(false);
+
+  function handleChange(e) {
+    setFields({ ...fields, [e.target.name]: e.target.value });
+  }
+  function handleSignUp(e) {
+    e.preventDefault();
+    setSubmitted(true);
+    setTimeout(() => {
+      setSubmitted(false);
+      onClose();
+    }, 1400); // shows a brief "signed up" flash then closes
+  }
+  if (!open) return null;
+  return (
+    <div
+      className="lc-modal"
+      role="dialog"
+      aria-modal="true"
+      style={{
+        position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 2100,
+        background: "rgba(16,22,28,0.32)", display: "flex", alignItems: "center", justifyContent: "center"
+      }}>
+      <form
+        style={{
+          background: "#fff",
+          padding: "33px 30px",
+          borderRadius: 17,
+          minWidth: 300,
+          width: 340,
+          color: COLORS.primary,
+          boxShadow: "0 2px 18px #1a263716",
+        }}
+        onSubmit={handleSignUp}
+        aria-label="Sign Up Modal"
+      >
+        <h3 style={{ margin: "0 0 16px", color: COLORS.primary, fontFamily: FONT_HEADING }}>Sign Up</h3>
+        <label htmlFor="signupName" style={{ fontWeight: 600 }}>Name:</label>
+        <input id="signupName" name="name" type="text" value={fields.name} onChange={handleChange} required disabled={submitted} style={{ width: '100%', marginBottom: 8, padding: 7, borderRadius: 5, border: '1.3px solid #adbadc', fontFamily: FONT_BODY }} />
+        <label htmlFor="signupEmail" style={{ fontWeight: 600 }}>Email:</label>
+        <input id="signupEmail" name="email" type="email" value={fields.email} onChange={handleChange} required disabled={submitted} style={{ width: '100%', marginBottom: 8, padding: 7, borderRadius: 5, border: '1.3px solid #adbadc', fontFamily: FONT_BODY }} />
+        <label htmlFor="signupPassword" style={{ fontWeight: 600 }}>Password:</label>
+        <input id="signupPassword" name="password" type="password" value={fields.password} onChange={handleChange} required minLength={6} disabled={submitted} style={{ width: '100%', marginBottom: 8, padding: 7, borderRadius: 5, border: '1.3px solid #adbadc', fontFamily: FONT_BODY }} />
+        <label htmlFor="signupConfirm" style={{ fontWeight: 600 }}>Confirm Password:</label>
+        <input id="signupConfirm" name="confirm" type="password" value={fields.confirm} onChange={handleChange} required minLength={6} disabled={submitted} style={{ width: '100%', marginBottom: 8, padding: 7, borderRadius: 5, border: '1.3px solid #adbadc', fontFamily: FONT_BODY }} />
+        <button className="btn btn-large" disabled={submitted || fields.password !== fields.confirm} style={{
+          background: COLORS.accent,
+          color: COLORS.primary,
+          width: "100%",
+          marginTop: 10,
+          fontWeight: 700,
+          fontFamily: FONT_HEADING,
+          opacity: fields.password !== fields.confirm ? 0.67 : 1,
+          borderRadius: 7
+        }}>
+          {submitted ? "Signing up..." : "Sign Up"}
+        </button>
+        {fields.password !== fields.confirm && !submitted && (
+          <div style={{ color: "#e54e2d", fontWeight: 600, fontSize: "0.97rem", marginTop: 2 }}>
+            Passwords do not match
+          </div>
+        )}
+        <button type="button" style={{
+          marginTop: 12, background: "transparent", border: "none", color: COLORS.primary,
+          fontWeight: 700, cursor: "pointer", display: "block", width: "100%", fontFamily: FONT_HEADING
+        }} onClick={onClose} disabled={submitted}>Cancel</button>
+      </form>
+    </div>
+  );
+}
+
+// --- MAIN CONTAINER W/ ROUTES ---
 function App() {
   const [signModal, setSignModal] = useState(false);
+  const [signUpModal, setSignUpModal] = useState(false);
   const [signedName, setSignedName] = useState('');
 
   return (
@@ -898,15 +973,14 @@ function App() {
               className="account-icon-btn sign-up-btn"
               tabIndex={0}
               aria-label="Sign Up"
-              onClick={() => { /* Placeholder handler */ alert("Sign up clicked!"); }}
+              onClick={() => setSignUpModal(true)}
               onKeyDown={e => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  alert("Sign up clicked!");
+                  setSignUpModal(true);
                 }
               }}
               style={{
-                // keep style override to ensure correct alignment with sibling
                 margin: 0,
                 fontSize: 0
               }}
@@ -917,9 +991,9 @@ function App() {
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: 29,
-                  color: "#FFD700", // gold for sign-up
+                  color: "#FFD700",
                   borderRadius: "50%",
-                  background: "#1A237E", // deep navy circle
+                  background: "#1A237E",
                   width: 48,
                   height: 48,
                   boxShadow: "0 2px 14px 0 rgba(13,27,42,.13)",
@@ -929,7 +1003,6 @@ function App() {
                 tabIndex={-1}
                 aria-hidden="true"
               >
-                {/* SVG user-plus icon as sign up, fallback to emoji */}
                 <svg width="27" height="27" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
                   <circle cx="11" cy="11" r="10" fill="none"/>
                   <path d="M11 12.5c2.49 0 5 .9 5 2.19v1a.81.81 0 0 1-.81.81H6.81A.81.81 0 0 1 6 15.69v-1C6 13.4 8.51 12.5 11 12.5zm0-1.59a2.59 2.59 0 1 0 0-5.18 2.59 2.59 0 0 0 0 5.18zm5.85-1h-1.1v-1.1a.75.75 0 0 0-1.5 0v1.1h-1.1a.75.75 0 0 0 0 1.5h1.1v1.1a.75.75 0 0 0 1.5 0v-1.1h1.1a.75.75 0 0 0 0-1.5z" fill="#FFD700"/>
@@ -983,6 +1056,14 @@ function App() {
         </div>
 
         <NavigationBar />
+
+        {/* Sign Up Modal */}
+        {signUpModal && (
+          <SignUpModal
+            open={signUpModal}
+            onClose={() => setSignUpModal(false)}
+          />
+        )}
 
         {/* Sign In Modal */}
         {signModal && (
