@@ -43,42 +43,76 @@ body {
 }
 
 /* User/account icon top right */
+/* Redesigned Account icon area with two visually prominent icon buttons (Sign Up, Sign In) */
 .account-icon-btn {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  /* base: layout in panel, actual positioning is overridden inline for legacy single-icon use */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
-  padding: 7px 12px;
-  margin-right: 12px;
-  font-size: 0;
+  padding: 0;
+  margin: 0 0 0 0;
   cursor: pointer;
   outline: none;
-  z-index: 120;
-}
-.account-icon-btn:focus > span,
-.account-icon-btn:focus-visible > span {
-  box-shadow: 0 0 0 3px var(--kavia-orange);
-  background: #fff7;
-}
-.account-icon-btn:active > span {
-  box-shadow: 0 0 0 2.5px var(--kavia-orange);
-  background: #fff7;
+  font-size: 0;
+  z-index: 130;
+  position: static;
+  box-shadow: none;
+  transition: background .14s;
 }
 .account-icon-btn > span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 26px;
-  color: var(--kavia-orange);
+  font-size: 29px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.085);
-  width: 38px;
-  height: 38px;
-  transition: box-shadow .13s, background .14s;
-  box-shadow: 0 1px 7px rgba(0,0,0,0.10);
+  width: 48px;
+  height: 48px;
+  background: transparent;
+  box-shadow: 0 2px 14px 0 rgba(13,27,42,.11);
   border: none;
+  transition: box-shadow .13s, background .14s, border .16s;
+  outline: none;
+}
+.account-icon-btn:focus > span,
+.account-icon-btn:focus-visible > span {
+  box-shadow: 0 0 0 3px #FFD700, 0 2px 16px 0 rgba(24,36,78,0.13);
+  background: #fffbe8;
+  outline: 2.5px solid #FFD700;
+  outline-offset: 1.5px;
+}
+.account-icon-btn.sign-in-btn:focus > span,
+.account-icon-btn.sign-in-btn:focus-visible > span {
+  box-shadow: 0 0 0 3px #1A237E, 0 2px 16px 0 rgba(24,36,78,0.13);
+  outline-color: #1A237E;
+  background: #ffefb5;
+}
+.account-icon-btn:active > span {
+  box-shadow: 0 0 0 2.5px #E87A41;
+  background: #fff7 !important;
+}
+.account-icon-btn .sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.account-icon-btn.sign-in-btn > span {
+  /* navy icon, gold background, thick border */
+  color: #1A237E;
+  background: #FFD700;
+  border: 2.5px solid #1A237E;
+}
+.account-icon-btn.sign-up-btn > span {
+  /* gold icon, navy background, thick border */
+  color: #FFD700;
+  background: #1A237E;
+  border: 2.5px solid #FFD700;
 }
 
 .account-icon-btn .sr-only {
