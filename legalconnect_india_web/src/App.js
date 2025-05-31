@@ -850,6 +850,7 @@ function App() {
       </div>
 
       {/* Horizontal feature/nav row below header */}
+      {/* Responsive Horizontal Nav with mobile menu toggle */}
       <div
         className="main-horizontal-nav"
         style={{
@@ -862,10 +863,26 @@ function App() {
           marginTop: 25,
           marginBottom: 6,
           gap: 0,
+          position: "relative",
         }}
       >
+        {/* Mobile Nav Toggle */}
+        <button
+          className="mobile-nav-toggle"
+          aria-label="Open navigation menu"
+          aria-expanded={undefined}
+          aria-controls="main-horizontal-features"
+          style={{
+            display: "none", // Will be shown by CSS on small screens
+          }}
+          id="mobile-nav-toggle"
+        >
+          <span aria-hidden="true">&#9776;</span>
+        </button>
+        {/* Navigation/Features, responsive */}
         <div
           className="main-horizontal-features"
+          id="main-horizontal-features"
           style={{
             display: "flex",
             flexDirection: "row",
