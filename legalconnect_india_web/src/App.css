@@ -19,6 +19,59 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+}
+
+.main-header-title {
+  text-align: center;
+}
+
+/* Horizontal nav/features row below header for professional legal look */
+.main-horizontal-nav {
+  margin-bottom: 0.5rem;
+}
+
+.main-horizontal-features {
+  display: flex;
+  flex-direction: row;
+  gap: 34px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ensure all major sections/content are centered horizontally */
+.container, .lc-match-form, .main-header-title, .main-horizontal-nav, .main-horizontal-features, main, section {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Accessibility focus for nav links */
+.main-horizontal-features a:focus {
+  outline: 2.5px solid var(--kavia-orange);
+  outline-offset: 2px;
+}
+
+/* Match professional look for nav links/buttons on dark header */
+.main-horizontal-features a,
+.main-horizontal-features a:visited {
+  color: var(--kavia-orange);
+  background-color: var(--kavia-dark);
+}
+.main-horizontal-features a:hover,
+.main-horizontal-features a:active {
+  background-color: var(--kavia-orange);
+  color: var(--kavia-dark);
+}
+
+/* Keep main content vertical centering responsive for site body */
+@media (max-width: 800px) {
+  .main-horizontal-features {
+    gap: 14px;
+  }
+  .main-horizontal-nav {
+    flex-direction: column;
+    gap: 0;
+  }
 }
 
 .navbar {
