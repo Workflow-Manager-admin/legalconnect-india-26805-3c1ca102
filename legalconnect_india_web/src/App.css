@@ -4,6 +4,11 @@
   --text-color: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.7);
   --border-color: rgba(255, 255, 255, 0.1);
+
+  --font-title: clamp(2.1rem, 8vw, 3.5rem);
+  --font-subtitle: clamp(1rem, 3vw, 1.18rem);
+  --font-base: clamp(1rem, 2.3vw, 1.15rem);
+  --container-padding: clamp(14px, 5vw, 28px);
 }
 
 body {
@@ -24,6 +29,11 @@ body {
 
 .main-header-title {
   text-align: center;
+  font-size: var(--font-title);
+  padding-top: clamp(24px, 5vw, 52px);
+  padding-bottom: clamp(9px, 3vw, 19px);
+  margin: 0;
+  line-height: 1.1;
 }
 
 /* Horizontal nav/features row below header for professional legal look */
