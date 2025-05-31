@@ -11,6 +11,7 @@
   --container-padding: clamp(14px, 5vw, 28px);
 }
 
+/* Reset and base elements */
 body {
   margin: 0;
   font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
@@ -20,6 +21,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* App container */
 .app {
   min-height: 100vh;
   display: flex;
@@ -40,6 +42,7 @@ body {
 .main-horizontal-nav {
   margin-bottom: 0.5rem;
   width: 100%;
+  position: relative;
 }
 
 /* Container for mobile nav toggle menu */
@@ -71,16 +74,6 @@ body {
   transition: gap 0.15s;
 }
 
-/* Ensure all major sections/content are centered horizontally and padded on mobile */
-.container, .lc-match-form, .main-header-title, .main-horizontal-nav, .main-horizontal-features, main, section {
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  box-sizing: border-box;
-  padding-left: var(--container-padding);
-  padding-right: var(--container-padding);
-}
-
 /* Accessibility focus for nav links */
 .main-horizontal-features a:focus {
   outline: 2.5px solid var(--kavia-orange);
@@ -107,6 +100,30 @@ body {
 .main-horizontal-features a:active {
   background-color: var(--kavia-orange);
   color: var(--kavia-dark);
+}
+
+/* Ensure all major sections/content are centered horizontally and padded on mobile */
+.container, .lc-match-form, .main-header-title, .main-horizontal-nav, .main-horizontal-features, main, section {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+  transition: padding 0.17s;
+}
+
+/* Utility: visually hide but keep for screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Responsive for navigation/features/homepage layout */
@@ -170,6 +187,7 @@ body {
   }
 }
 
+/* On very small screens */
 @media (max-width: 480px) {
   .container,
   main,
@@ -189,6 +207,7 @@ body {
   }
 }
 
+/* Sticky NavBar styles */
 .navbar {
   background-color: var(--kavia-dark);
   padding: clamp(9px, 2vw, 16px);
@@ -275,3 +294,5 @@ body {
   padding: clamp(9px, 2vw, 12px) clamp(18px, 4vw, 24px);
   font-size: var(--font-base);
 }
+
+/* Further section and container, form, etc. remain as is for now, as they inherit responsivity from container classes */
