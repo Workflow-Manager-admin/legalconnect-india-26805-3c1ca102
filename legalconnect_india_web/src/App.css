@@ -83,11 +83,21 @@ body {
   outline-offset: 2px;
 }
 
-/* Match professional look for nav links/buttons on dark header */
+/* Nav links - mobile friendly touch target, adaptive sizes */
 .main-horizontal-features a,
 .main-horizontal-features a:visited {
   color: var(--kavia-orange);
   background-color: var(--kavia-dark);
+  font-size: var(--font-base);
+  border-radius: 7px;
+  text-decoration: none;
+  padding: clamp(6px, 1.5vw, 13px) clamp(13px, 4vw, 18px);
+  margin: 0 2px;
+  box-shadow: 0 1px 4px rgba(20,23,32,0.10);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: background .15s, color .15s, border-color .13s;
 }
 .main-horizontal-features a:hover,
 .main-horizontal-features a:active {
