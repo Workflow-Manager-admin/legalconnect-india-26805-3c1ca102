@@ -233,21 +233,24 @@ body {
 /* At mobile nav breakpoint: show mobile nav toggle, hide links unless open */
 @media (max-width: 650px) {
   .main-horizontal-features {
-    flex-direction: column;
-    gap: 6px;
-    align-items: stretch;
+    flex-direction: row !important;
+    gap: 7px;
+    align-items: center;
+    flex-wrap: nowrap !important;
     width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
   }
   .main-horizontal-nav {
     justify-content: flex-start;
+    overflow-x: auto;
   }
   .mobile-nav-toggle {
-    display: flex;
-    z-index: 1500;
-    align-items: center;
+    display: none !important; /* Hide, as we're always horizontal scroll now */
   }
   .main-horizontal-features.mobile-closed {
-    display: none !important;
+    display: flex !important;
   }
 }
 
