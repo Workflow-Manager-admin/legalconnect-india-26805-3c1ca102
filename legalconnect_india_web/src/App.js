@@ -83,9 +83,6 @@ function PlaceholderPage({ heading, children }) {
   );
 }
 
-/**
- * Lawyer Match Page – Sample interactive form + mock lawyer results
- */
 // PUBLIC_INTERFACE
 function MatchLawyerPage() {
   const [form, setForm] = useState({
@@ -233,9 +230,6 @@ function MatchLawyerPage() {
   );
 }
 
-/**
- * Legal Documents Page – Sample template downloads + fill/upload form
- */
 // PUBLIC_INTERFACE
 function LegalDocsPage() {
   const [docUpload, setDocUpload] = useState({ filename: "", filled: "" });
@@ -300,9 +294,6 @@ function LegalDocsPage() {
   );
 }
 
-/**
- * Case Tracker Page – Example entry + timeline/status tracker
- */
 // PUBLIC_INTERFACE
 function CaseTrackerPage() {
   // Static sample data for illustration
@@ -375,9 +366,6 @@ function CaseTrackerPage() {
   );
 }
 
-/**
- * Video Consultation – Mock calendar/booking widget
- */
 // PUBLIC_INTERFACE
 function VideoConsultPage() {
   // Fake calendar: array of time slots for a single day for demonstration
@@ -453,9 +441,6 @@ function VideoConsultPage() {
   );
 }
 
-/**
- * Know Your Rights – Educational sections/cards
- */
 // PUBLIC_INTERFACE
 function KnowYourRightsPage() {
   // Sample categories with mock rich descriptions
@@ -521,9 +506,6 @@ function KnowYourRightsPage() {
   );
 }
 
-/**
- * Q&A Forum Page – Sample Qs/As, input for new question
- */
 // PUBLIC_INTERFACE
 function QaForumPage() {
   // Sample QAs
@@ -732,6 +714,80 @@ function SignInModal({ open, onClose, onSignedIn }) {
   );
 }
 
+// --- SIGN UP MODAL (MATCHING SIGN IN MODAL PATTERN) ---
+function SignUpModal({ open, onClose }) {
+  const [fields, setFields] = useState({ name: '', email: '', password: '', confirm: '' });
+  const [submitted, setSubmitted] = useState(false);
+
+  function handleChange(e) {
+    setFields({ ...fields, [e.target.name]: e.target.value });
+  }
+  function handleSignUp(e) {
+    e.preventDefault();
+    setSubmitted(true);
+    setTimeout(() => {
+      setSubmitted(false);
+      onClose();
+    }, 1400); // brief "signed up" pseudo-flash
+  }
+  if (!open) return null;
+  return (
+    <div
+      className="lc-modal"
+      role="dialog"
+      aria-modal="true"
+      style={{
+        position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 2100,
+        background: "rgba(16,22,28,0.32)", display: "flex", alignItems: "center", justifyContent: "center"
+      }}>
+      <form
+        style={{
+          background: "#fff",
+          padding: "33px 30px",
+          borderRadius: 17,
+          minWidth: 300,
+          width: 340,
+          color: COLORS.primary,
+          boxShadow: "0 2px 18px #1a263716",
+        }}
+        onSubmit={handleSignUp}
+        aria-label="Sign Up Modal"
+      >
+        <h3 style={{ margin: "0 0 16px", color: COLORS.primary, fontFamily: FONT_HEADING }}>Sign Up</h3>
+        <label htmlFor="signupName" style={{ fontWeight: 600 }}>Name:</label>
+        <input id="signupName" name="name" type="text" value={fields.name} onChange={handleChange} required disabled={submitted} style={{ width: '100%', marginBottom: 8, padding: 7, borderRadius: 5, border: '1.3px solid #adbadc', fontFamily: FONT_BODY }} />
+        <label htmlFor="signupEmail" style={{ fontWeight: 600 }}>Email:</label>
+        <input id="signupEmail" name="email" type="email" value={fields.email} onChange={handleChange} required disabled={submitted} style={{ width: '100%', marginBottom: 8, padding: 7, borderRadius: 5, border: '1.3px solid #adbadc', fontFamily: FONT_BODY }} />
+        <label htmlFor="signupPassword" style={{ fontWeight: 600 }}>Password:</label>
+        <input id="signupPassword" name="password" type="password" value={fields.password} onChange={handleChange} required minLength={6} disabled={submitted} style={{ width: '100%', marginBottom: 8, padding: 7, borderRadius: 5, border: '1.3px solid #adbadc', fontFamily: FONT_BODY }} />
+        <label htmlFor="signupConfirm" style={{ fontWeight: 600 }}>Confirm Password:</label>
+        <input id="signupConfirm" name="confirm" type="password" value={fields.confirm} onChange={handleChange} required minLength={6} disabled={submitted} style={{ width: '100%', marginBottom: 8, padding: 7, borderRadius: 5, border: '1.3px solid #adbadc', fontFamily: FONT_BODY }} />
+        <button className="btn btn-large" disabled={submitted || fields.password !== fields.confirm} style={{
+          background: COLORS.accent,
+          color: COLORS.primary,
+          width: "100%",
+          marginTop: 10,
+          fontWeight: 700,
+          fontFamily: FONT_HEADING,
+          opacity: fields.password !== fields.confirm ? 0.67 : 1,
+          borderRadius: 7
+        }}>
+          {submitted ? "Signing up..." : "Sign Up"}
+        </button>
+        {fields.password !== fields.confirm && !submitted && (
+          <div style={{ color: "#e54e2d", fontWeight: 600, fontSize: "0.97rem", marginTop: 2 }}>
+            Passwords do not match
+          </div>
+        )}
+        <button type="button" style={{
+          marginTop: 12, background: "transparent", border: "none", color: COLORS.primary,
+          fontWeight: 700, cursor: "pointer", display: "block", width: "100%", fontFamily: FONT_HEADING
+        }} onClick={onClose} disabled={submitted}>Cancel</button>
+      </form>
+    </div>
+  );
+}
+
 // --- FOOTER ---
 function Footer() {
   return (
@@ -829,80 +885,6 @@ function NavigationBar() {
           </NavLink>
         ))}
       </div>
-    </div>
-  );
-}
-
-// --- MAIN CONTAINER W/ ROUTES ---
-function SignUpModal({ open, onClose }) {
-  const [fields, setFields] = useState({ name: '', email: '', password: '', confirm: '' });
-  const [submitted, setSubmitted] = useState(false);
-
-  function handleChange(e) {
-    setFields({ ...fields, [e.target.name]: e.target.value });
-  }
-  function handleSignUp(e) {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      onClose();
-    }, 1400); // shows a brief "signed up" flash then closes
-  }
-  if (!open) return null;
-  return (
-    <div
-      className="lc-modal"
-      role="dialog"
-      aria-modal="true"
-      style={{
-        position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 2100,
-        background: "rgba(16,22,28,0.32)", display: "flex", alignItems: "center", justifyContent: "center"
-      }}>
-      <form
-        style={{
-          background: "#fff",
-          padding: "33px 30px",
-          borderRadius: 17,
-          minWidth: 300,
-          width: 340,
-          color: COLORS.primary,
-          boxShadow: "0 2px 18px #1a263716",
-        }}
-        onSubmit={handleSignUp}
-        aria-label="Sign Up Modal"
-      >
-        <h3 style={{ margin: "0 0 16px", color: COLORS.primary, fontFamily: FONT_HEADING }}>Sign Up</h3>
-        <label htmlFor="signupName" style={{ fontWeight: 600 }}>Name:</label>
-        <input id="signupName" name="name" type="text" value={fields.name} onChange={handleChange} required disabled={submitted} style={{ width: '100%', marginBottom: 8, padding: 7, borderRadius: 5, border: '1.3px solid #adbadc', fontFamily: FONT_BODY }} />
-        <label htmlFor="signupEmail" style={{ fontWeight: 600 }}>Email:</label>
-        <input id="signupEmail" name="email" type="email" value={fields.email} onChange={handleChange} required disabled={submitted} style={{ width: '100%', marginBottom: 8, padding: 7, borderRadius: 5, border: '1.3px solid #adbadc', fontFamily: FONT_BODY }} />
-        <label htmlFor="signupPassword" style={{ fontWeight: 600 }}>Password:</label>
-        <input id="signupPassword" name="password" type="password" value={fields.password} onChange={handleChange} required minLength={6} disabled={submitted} style={{ width: '100%', marginBottom: 8, padding: 7, borderRadius: 5, border: '1.3px solid #adbadc', fontFamily: FONT_BODY }} />
-        <label htmlFor="signupConfirm" style={{ fontWeight: 600 }}>Confirm Password:</label>
-        <input id="signupConfirm" name="confirm" type="password" value={fields.confirm} onChange={handleChange} required minLength={6} disabled={submitted} style={{ width: '100%', marginBottom: 8, padding: 7, borderRadius: 5, border: '1.3px solid #adbadc', fontFamily: FONT_BODY }} />
-        <button className="btn btn-large" disabled={submitted || fields.password !== fields.confirm} style={{
-          background: COLORS.accent,
-          color: COLORS.primary,
-          width: "100%",
-          marginTop: 10,
-          fontWeight: 700,
-          fontFamily: FONT_HEADING,
-          opacity: fields.password !== fields.confirm ? 0.67 : 1,
-          borderRadius: 7
-        }}>
-          {submitted ? "Signing up..." : "Sign Up"}
-        </button>
-        {fields.password !== fields.confirm && !submitted && (
-          <div style={{ color: "#e54e2d", fontWeight: 600, fontSize: "0.97rem", marginTop: 2 }}>
-            Passwords do not match
-          </div>
-        )}
-        <button type="button" style={{
-          marginTop: 12, background: "transparent", border: "none", color: COLORS.primary,
-          fontWeight: 700, cursor: "pointer", display: "block", width: "100%", fontFamily: FONT_HEADING
-        }} onClick={onClose} disabled={submitted}>Cancel</button>
-      </form>
     </div>
   );
 }
@@ -1125,7 +1107,6 @@ function App() {
             </Routes>
           </main>
         </div>
-
         <Footer />
       </div>
     </Router>
