@@ -39,14 +39,36 @@ body {
 /* Horizontal nav/features row below header for professional legal look */
 .main-horizontal-nav {
   margin-bottom: 0.5rem;
+  width: 100%;
 }
 
+/* Container for mobile nav toggle menu */
+.mobile-nav-toggle {
+  display: none;
+  background: var(--kavia-orange);
+  border: none;
+  color: #fff;
+  font-size: 1.3rem;
+  border-radius: 5px;
+  padding: 7px 13px;
+  margin-left: 10px;
+  cursor: pointer;
+  align-items: center;
+  transition: background 0.18s;
+}
+.mobile-nav-toggle:focus {
+  outline: 2.5px solid var(--kavia-orange);
+}
+
+/* Responsive nav/feature row: horizontal on large, stacks/menus on mobile */
 .main-horizontal-features {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 34px;
   justify-content: center;
   align-items: center;
+  transition: gap 0.15s;
 }
 
 /* Ensure all major sections/content are centered horizontally */
