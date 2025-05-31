@@ -36,52 +36,14 @@ body {
   padding-bottom: clamp(9px, 3vw, 19px);
   margin: 0;
   line-height: 1.1;
-}
-
-/* Horizontal nav/features row below header for professional legal look */
-.main-horizontal-nav {
-  margin-bottom: 0.5rem;
+  background: none;
+  border: none;
   width: 100%;
   position: relative;
 }
 
-/* Container for mobile nav toggle menu */
-.mobile-nav-toggle {
-  display: none;
-  background: var(--kavia-orange);
-  border: none;
-  color: #fff;
-  font-size: 1.3rem;
-  border-radius: 5px;
-  padding: 7px 13px;
-  margin-left: 10px;
-  cursor: pointer;
-  align-items: center;
-  transition: background 0.18s;
-}
-.mobile-nav-toggle:focus {
-  outline: 2.5px solid var(--kavia-orange);
-}
-
-/* Responsive nav/feature row: horizontal on large, allow scroll on small */
-.main-horizontal-features {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap !important;
-  gap: 30px;
-  justify-content: flex-start;
-  align-items: center;
-  white-space: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  transition: gap 0.15s;
-  padding: 2px 1vw;
-  scrollbar-width: thin;
-  -webkit-overflow-scrolling: touch;
-}
-
+/* User/account icon top right */
 .account-icon-btn {
-  /* Top right user/account icon styles */
   position: absolute;
   right: 0;
   top: 50%;
@@ -89,7 +51,7 @@ body {
   background: none;
   border: none;
   padding: 7px 12px;
-  margin-right: 10px;
+  margin-right: 12px;
   font-size: 0;
   cursor: pointer;
   outline: none;
@@ -130,6 +92,35 @@ body {
   border: 0;
 }
 
+/* Horizontal nav/features row below header for professional legal look */
+.main-horizontal-nav {
+  margin-bottom: 0.5rem;
+  width: 100%;
+  position: relative;
+  background: var(--kavia-dark, #181a22);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  white-space: nowrap;
+}
+
+/* Responsive nav/feature row: horizontal only, no wrapping */
+.main-horizontal-features {
+  display: flex;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 30px;
+  justify-content: flex-start;
+  align-items: center;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  transition: gap 0.15s;
+  padding: 3px 2vw;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Accessibility focus for nav links */
 .main-horizontal-features a:focus {
   outline: 2.5px solid var(--kavia-orange);
@@ -158,17 +149,6 @@ body {
   color: var(--kavia-dark);
 }
 
-/* Ensure all major sections/content are centered horizontally and padded on mobile */
-.container, .lc-match-form, .main-header-title, .main-horizontal-nav, .main-horizontal-features, main, section {
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  box-sizing: border-box;
-  padding-left: var(--container-padding);
-  padding-right: var(--container-padding);
-  transition: padding 0.17s;
-}
-
 /* Utility: visually hide but keep for screen readers */
 .sr-only {
   position: absolute;
@@ -182,9 +162,18 @@ body {
   border: 0;
 }
 
-/* Responsive for navigation/features/homepage layout */
+/* General responsive container/content padding */
+.container, .lc-match-form, .main-header-title, .main-horizontal-nav, .main-horizontal-features, main, section {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+  transition: padding 0.17s;
+}
 
-/* On tablets/mobile: nav/feature bar stacks vertically or collapses */
+/* Responsive for navigation/features/homepage layout */
 @media (max-width: 1100px) {
   .main-horizontal-features {
     gap: 16px;
@@ -193,12 +182,6 @@ body {
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
   }
-  .main-horizontal-nav {
-    flex-direction: column;
-    gap: 0;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
   .main-header-title {
     font-size: clamp(2.1rem, 6vw, 2.7rem);
     padding-top: clamp(15px, 5vw, 32px);
@@ -206,7 +189,6 @@ body {
   }
 }
 
-/* On mobile ~ 780px and below: nav collapses to menu, main gap/padding scales down, fonts scale */
 @media (max-width: 800px) {
   .main-horizontal-features {
     gap: 10px;
@@ -230,7 +212,6 @@ body {
   }
 }
 
-/* At mobile nav breakpoint: show mobile nav toggle, hide links unless open */
 @media (max-width: 650px) {
   .main-horizontal-features {
     flex-direction: row !important;
@@ -247,14 +228,13 @@ body {
     overflow-x: auto;
   }
   .mobile-nav-toggle {
-    display: none !important; /* Hide, as we're always horizontal scroll now */
+    display: none !important;
   }
   .main-horizontal-features.mobile-closed {
     display: flex !important;
   }
 }
 
-/* On very small screens */
 @media (max-width: 480px) {
   .container,
   main,
@@ -274,7 +254,7 @@ body {
   }
 }
 
-/* Sticky NavBar styles */
+/* Sticky NavBar styles (unused in new layout, retained for possible site sections) */
 .navbar {
   background-color: var(--kavia-dark);
   padding: clamp(9px, 2vw, 16px);
@@ -296,7 +276,6 @@ body {
   align-items: center;
   gap: 8px;
 }
-
 .logo-symbol {
   color: var(--kavia-orange);
 }
@@ -361,5 +340,3 @@ body {
   padding: clamp(9px, 2vw, 12px) clamp(18px, 4vw, 24px);
   font-size: var(--font-base);
 }
-
-/* Further section and container, form, etc. remain as is for now, as they inherit responsivity from container classes */
