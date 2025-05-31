@@ -7,3 +7,87 @@
 (node:544) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 Starting the development server...
 
+Compiled successfully!
+
+You can now view react-kavia in the browser.
+
+  Local:            http://localhost:3000
+  On Your Network:  http://172.17.0.2:3000
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
+
+webpack compiled successfully
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/App.js
+Syntax error: Unexpected token, expected "}" (403:44) (403:44)
+ERROR in ./src/App.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/src/App.js: Unexpected token, expected "}" (403:44)
+
+  401 |             maxWidth:320,
+  402 |             fontSize:"1.07rem",
+> 403 |             boxShadow:"1px 1px 8px #f0f1ff"});
+      |                                             ^
+  404 |           }>
+  405 |             <b>{item.cat}:</b> {item.tip}
+  406 |           </div>
+    at constructor (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:360:19)
+    at FlowParserMixin.raise (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:3327:19)
+    at FlowParserMixin.unexpected (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:3347:16)
+    at FlowParserMixin.expect (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:3657:12)
+    at FlowParserMixin.jsxParseExpressionContainer (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:6810:10)
+    at FlowParserMixin.jsxParseAttributeValue (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:6777:21)
+    at FlowParserMixin.jsxParseAttribute (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:6826:38)
+    at FlowParserMixin.jsxParseOpeningElementAfterName (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:6840:28)
+    at FlowParserMixin.jsxParseOpeningElementAfterName (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:6292:18)
+    at FlowParserMixin.jsxParseOpeningElementAt (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:6835:17)
+    at FlowParserMixin.jsxParseElementAt (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:6859:33)
+    at FlowParserMixin.jsxParseElement (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:6922:17)
+    at FlowParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:6932:19)
+    at FlowParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10758:23)
+    at FlowParserMixin.parseUpdate (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10743:21)
+    at FlowParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10723:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10576:61)
+    at FlowParserMixin.parseExprOps (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10581:23)
+    at FlowParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10558:23)
+    at FlowParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10521:21)
+    at /home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:5722:39
+    at FlowParserMixin.tryParse (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:3665:20)
+    at FlowParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:5722:18)
+    at FlowParserMixin.parseFunctionBody (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:11776:24)
+    at /home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:5114:63
+    at FlowParserMixin.forwardNoArrowParamsConversionAt (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:5290:16)
+    at FlowParserMixin.parseFunctionBody (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:5114:12)
+    at FlowParserMixin.parseArrowExpression (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:11758:10)
+    at FlowParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:11122:25)
+    at FlowParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:6937:20)
+    at FlowParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10758:23)
+    at FlowParserMixin.parseUpdate (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10743:21)
+    at FlowParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10723:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10576:61)
+    at FlowParserMixin.parseExprOps (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10581:23)
+    at FlowParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10558:23)
+    at FlowParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10521:21)
+    at FlowParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:5773:18)
+    at /home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10491:39
+    at FlowParserMixin.allowInAnd (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:12100:12)
+    at FlowParserMixin.parseMaybeAssignAllowIn (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10491:17)
+    at FlowParserMixin.parseExprListItem (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:11858:18)
+    at FlowParserMixin.parseCallExpressionArguments (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10927:22)
+    at FlowParserMixin.parseCoverCallAndAsyncArrowHead (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10861:29)
+    at FlowParserMixin.parseSubscript (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10798:19)
+    at FlowParserMixin.parseSubscript (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:5874:18)
+    at FlowParserMixin.parseSubscripts (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10771:19)
+    at FlowParserMixin.parseSubscripts (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:5840:18)
+    at FlowParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10762:17)
+    at FlowParserMixin.parseUpdate (/home/kavia/workspace/code-generation/legalconnect-india-26805-3c1ca102/legalconnect_india_web/node_modules/@babel/parser/lib/index.js:10743:21)
+
+ERROR in [eslint] 
+src/App.js
+  Line 403:44:  Parsing error: Unexpected token, expected "}" (403:44)
+
+webpack compiled with 2 errors
