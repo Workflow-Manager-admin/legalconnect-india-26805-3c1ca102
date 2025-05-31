@@ -849,39 +849,38 @@ function App() {
         </div>
       </div>
 
-      {/* Vertically stacked main nav/features, center-aligned */}
+      {/* Horizontal feature/nav row below header */}
       <div
+        className="main-horizontal-nav"
         style={{
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
+          justifyContent: "center",
           alignItems: "center",
           width: "100%",
-          gap: 30,
           margin: "0 auto",
+          marginTop: 25,
+          marginBottom: 6,
+          gap: 0,
         }}
       >
-        {/* Main options/features/links */}
         <div
-          className="main-options-stack"
+          className="main-horizontal-features"
           style={{
-            marginTop: 28,
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
+            gap: 34,
+            justifyContent: "center",
             alignItems: "center",
-            gap: 24,
-            width: "100%",
-            maxWidth: 400
+            width: "auto"
           }}
         >
-          {/* List main nav/features vertically with icons */}
           {NAV_LINKS.map(link => (
             <a
               key={link.anchor}
               href={`#${link.anchor}`}
               tabIndex={0}
               style={{
-                width: "100%",
-                minWidth: 200,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -889,17 +888,25 @@ function App() {
                 color: COLORS.accent,
                 fontFamily: FONT_HEADING,
                 fontWeight: 700,
-                fontSize: "1.19rem",
+                fontSize: "1.09rem",
                 borderRadius: 7,
-                margin: 0,
-                padding: "10px 18px",
-                gap: 13,
+                padding: "7px 17px",
+                gap: 9,
                 textDecoration: "none",
                 boxShadow: COLORS.shadow,
-                transition: "background .15s, color .15s"
+                margin: "0 4px",
+                border: `2px solid transparent`,
+                transition: "background .13s, color .13s, border-color .13s"
               }}
-              onFocus={e => e.target.style.background = COLORS.blackOverlay}
-              onBlur={e => e.target.style.background = COLORS.primary}
+              onFocus={e => {
+                e.target.style.background = COLORS.blackOverlay;
+                e.target.style.borderColor = COLORS.accent;
+              }}
+              onBlur={e => {
+                e.target.style.background = COLORS.primary;
+                e.target.style.color = COLORS.accent;
+                e.target.style.borderColor = "transparent";
+              }}
               onMouseOver={e => {
                 e.target.style.background = COLORS.accent;
                 e.target.style.color = COLORS.primary;
@@ -915,9 +922,7 @@ function App() {
             </a>
           ))}
         </div>
-
-        {/* Sign In button - centered below options */}
-        <div style={{marginTop: 10, width: "100%", textAlign: "center"}}>
+        <div style={{ marginLeft: 30 }}>
           <button
             className="btn btn-large"
             style={{
@@ -925,11 +930,10 @@ function App() {
               color: COLORS.primary,
               fontWeight: 900,
               fontFamily: FONT_HEADING,
-              fontSize: "1.13rem",
+              fontSize: "1.08rem",
               borderRadius: 8,
-              padding: "13px 36px",
+              padding: "10px 28px",
               boxShadow: COLORS.shadow,
-              margin: "0 auto",
               border: "none"
             }}
             onClick={() => setSignModal(true)}
