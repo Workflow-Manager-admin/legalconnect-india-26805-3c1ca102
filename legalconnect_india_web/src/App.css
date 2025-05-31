@@ -71,10 +71,14 @@ body {
   transition: gap 0.15s;
 }
 
-/* Ensure all major sections/content are centered horizontally */
+/* Ensure all major sections/content are centered horizontally and padded on mobile */
 .container, .lc-match-form, .main-header-title, .main-horizontal-nav, .main-horizontal-features, main, section {
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
 }
 
 /* Accessibility focus for nav links */
