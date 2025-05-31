@@ -63,15 +63,71 @@ body {
   outline: 2.5px solid var(--kavia-orange);
 }
 
-/* Responsive nav/feature row: horizontal on large, stacks/menus on mobile */
+/* Responsive nav/feature row: horizontal on large, allow scroll on small */
 .main-horizontal-features {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  gap: 34px;
-  justify-content: center;
+  flex-wrap: nowrap !important;
+  gap: 30px;
+  justify-content: flex-start;
   align-items: center;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
   transition: gap 0.15s;
+  padding: 2px 1vw;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.account-icon-btn {
+  /* Top right user/account icon styles */
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 7px 12px;
+  margin-right: 10px;
+  font-size: 0;
+  cursor: pointer;
+  outline: none;
+  z-index: 120;
+}
+.account-icon-btn:focus > span,
+.account-icon-btn:focus-visible > span {
+  box-shadow: 0 0 0 3px var(--kavia-orange);
+  background: #fff7;
+}
+.account-icon-btn:active > span {
+  box-shadow: 0 0 0 2.5px var(--kavia-orange);
+  background: #fff7;
+}
+.account-icon-btn > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  color: var(--kavia-orange);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.085);
+  width: 38px;
+  height: 38px;
+  transition: box-shadow .13s, background .14s;
+  box-shadow: 0 1px 7px rgba(0,0,0,0.10);
+  border: none;
+}
+
+.account-icon-btn .sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Accessibility focus for nav links */
