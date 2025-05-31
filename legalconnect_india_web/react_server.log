@@ -91,3 +91,6 @@ src/App.js
   Line 403:44:  Parsing error: Unexpected token, expected "}" (403:44)
 
 webpack compiled with 2 errors
+Compiling...
+Compiled successfully!
+webpack compiled successfully

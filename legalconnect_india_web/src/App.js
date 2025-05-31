@@ -400,8 +400,8 @@ function KnowYourRights() {
             minWidth:170,
             maxWidth:320,
             fontSize:"1.07rem",
-            boxShadow:"1px 1px 8px #f0f1ff"});
-          }>
+            boxShadow:"1px 1px 8px #f0f1ff"
+          }}>
             <b>{item.cat}:</b> {item.tip}
           </div>
         )}
