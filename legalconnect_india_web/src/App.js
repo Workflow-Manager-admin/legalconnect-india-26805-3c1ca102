@@ -83,25 +83,534 @@ function PlaceholderPage({ heading, children }) {
   );
 }
 
-// Each route gets a separate minimal page. Expandable for real functionality.
+/**
+ * Lawyer Match Page – Sample interactive form + mock lawyer results
+ */
+// PUBLIC_INTERFACE
 function MatchLawyerPage() {
-  // For now, just show the placeholder.
-  return <PlaceholderPage heading="Instant Lawyer Match">{icons.lawyer} {/* more UI soon */}</PlaceholderPage>;
+  const [form, setForm] = useState({
+    description: "",
+    urgency: "Normal",
+    budget: "",
+    specialization: "Civil"
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const sampleLawyers = [
+    {
+      name: "Adv. Rina Sharma",
+      rating: 4.8,
+      specialization: "Property Law",
+      exp: 12,
+      results: ["High Court, Delhi", "Fluent: Hindi/English"]
+    },
+    {
+      name: "Adv. Arjun Kadam",
+      rating: 4.6,
+      specialization: "Family Law",
+      exp: 8,
+      results: ["District Court, Mumbai", "Fluent: Marathi/English"]
+    }
+  ];
+
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setSubmitted(true);
+  }
+
+  return (
+    <PlaceholderPage heading="Instant Lawyer Match">
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 560,
+          padding: "19px 2vw",
+          background: "#fff",
+          borderRadius: 13,
+          boxShadow: COLORS.shadow,
+          marginBottom: 26
+        }}
+      >
+        <form onSubmit={handleSubmit} className="lc-match-form" style={{ display: "flex", flexDirection: "column", gap: 15 }}>
+          <label style={{ fontWeight: 600, color: COLORS.primary }}>
+            Legal Issue Description
+            <textarea
+              name="description"
+              style={{ width: "100%", marginTop: 3, padding: 8, borderRadius: 6, border: "1.1px solid #adbadc", minHeight: 44, resize: "vertical" }}
+              value={form.description}
+              onChange={handleChange}
+              required
+              maxLength={300}
+              aria-label="Describe your legal issue"
+              placeholder="Briefly describe your problem or legal need"
+              disabled={submitted}
+            />
+          </label>
+          <label style={{ fontWeight: 600 }}>
+            Urgency
+            <select
+              name="urgency"
+              style={{ width: "100%", marginTop: 3, padding: 7, borderRadius: 6, border: "1.1px solid #adbadc" }}
+              value={form.urgency}
+              onChange={handleChange}
+              disabled={submitted}
+            >
+              <option value="Normal">Normal</option>
+              <option value="Urgent">Urgent</option>
+              <option value="Immediate">Immediate</option>
+            </select>
+          </label>
+          <label style={{ fontWeight: 600 }}>
+            Budget Estimate (INR)
+            <input
+              type="number"
+              name="budget"
+              min={500}
+              placeholder="(Optional)"
+              value={form.budget}
+              onChange={handleChange}
+              style={{ width: "100%", marginTop: 3, padding: 8, borderRadius: 6, border: "1.1px solid #adbadc" }}
+              disabled={submitted}
+            />
+          </label>
+          <label style={{ fontWeight: 600 }}>
+            Area of Law / Specialization
+            <select
+              name="specialization"
+              value={form.specialization}
+              onChange={handleChange}
+              disabled={submitted}
+              style={{ width: "100%", marginTop: 3, padding: 7, borderRadius: 6, border: "1.1px solid #adbadc" }}
+            >
+              <option value="Civil">Civil</option>
+              <option value="Criminal">Criminal</option>
+              <option value="Property Law">Property Law</option>
+              <option value="Family Law">Family Law</option>
+              <option value="Corporate">Corporate</option>
+              <option value="Constitutional">Constitutional</option>
+            </select>
+          </label>
+          {!submitted &&
+            <button className="btn btn-large" style={{ background: COLORS.accent, color: COLORS.primary, fontWeight: 800, fontFamily: FONT_HEADING, borderRadius: 6 }}>
+              {icons.lawyer} Find My Lawyer
+            </button>
+          }
+        </form>
+        {submitted &&
+          <div style={{ marginTop: 23 }}>
+            <div style={{ fontFamily: FONT_HEADING, color: COLORS.primary, fontWeight: 700, fontSize: "1.12rem", marginBottom: 13, display: "flex", alignItems: "center", gap: 6 }}>
+              {icons.lawyer} Matched Lawyers (Sample)
+            </div>
+            <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 16 }}>
+              {sampleLawyers.map(lawyer => (
+                <div key={lawyer.name} style={{ background: "#f7faff", borderRadius: 12, padding: 13, width: 230, boxShadow: "0 1px 6px #e1e6ee" }}>
+                  <div style={{ color: COLORS.primary, fontWeight: 700, fontSize: "1.08rem", marginBottom: 4 }}>{lawyer.name}</div>
+                  <div style={{ fontSize: "0.96rem", color: "#225", marginBottom: 3 }}>{lawyer.specialization}</div>
+                  <div style={{ fontSize: "0.94rem", color: "#6d7298" }}>Experience: <b>{lawyer.exp} yrs</b></div>
+                  <div style={{ fontSize: "0.98rem", color: COLORS.accent, fontWeight: 700, margin: "5px 0" }}>
+                    {Array.from({ length: Math.floor(lawyer.rating) }, (v, i) => <span key={i}>★</span>)}<span style={{ filter: "grayscale(.5)", color: "#bbb" }}>{lawyer.rating % 1 ? "☆" : ""}</span>
+                  </div>
+                  <ul style={{ margin: "5px 0 0 0", padding: "0 0 0 15px", color: "#444", fontSize: "0.93rem" }}>
+                    {lawyer.results.map((r, i) => <li key={i}>{r}</li>)}
+                  </ul>
+                  <button className="btn" style={{ marginTop: 10, background: COLORS.primary, color: "#fff", fontWeight: 600, fontFamily: FONT_HEADING, borderRadius: 4, fontSize: "0.96rem" }}>
+                    View Profile
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        }
+        {submitted && <div style={{ marginTop: 18 }}>
+          <button onClick={() => setSubmitted(false)} className="btn" style={{ background: COLORS.accent, color: COLORS.primary, fontWeight: 700, fontFamily: FONT_HEADING, borderRadius: 6 }}>Try New Match</button>
+        </div>}
+      </div>
+    </PlaceholderPage>
+  );
 }
+
+/**
+ * Legal Documents Page – Sample template downloads + fill/upload form
+ */
+// PUBLIC_INTERFACE
 function LegalDocsPage() {
-  return <PlaceholderPage heading="Legal Documents Generator">{icons.doc}</PlaceholderPage>;
+  const [docUpload, setDocUpload] = useState({ filename: "", filled: "" });
+  const templates = [
+    { name: "Rental Agreement", url: "#" },
+    { name: "Non-Disclosure Agreement (NDA)", url: "#" },
+    { name: "Affidavit (General)", url: "#" }
+  ];
+  return (
+    <PlaceholderPage heading="Legal Documents Generator">
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 520,
+          marginBottom: 28,
+          background: "#fff",
+          borderRadius: 14,
+          boxShadow: COLORS.shadow,
+          padding: "18px 2vw"
+        }}
+      >
+        <div style={{ marginBottom: 18 }}>
+          <div style={{ color: COLORS.primary, fontFamily: FONT_HEADING, fontWeight: 700, fontSize: "1.12rem", marginBottom: 7 }}>
+            {icons.doc} Download Sample Templates
+          </div>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+            {templates.map((tpl, i) => (
+              <li key={i} style={{ marginBottom: 7 }}>
+                <a href={tpl.url} download style={{ textDecoration: "none", color: COLORS.primary, fontWeight: 500, fontSize: "1.055rem", background: COLORS.accent, borderRadius: 5, padding: "5px 15px", boxShadow: "0 0 4px #e6e8f5", display: "inline-block" }}>
+                  {tpl.name} ⬇️
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <div style={{ color: COLORS.primary, fontFamily: FONT_HEADING, fontWeight: 700, marginBottom: 7, fontSize: "1.12rem" }}>
+            Fill or Upload Document
+          </div>
+          <input
+            type="file"
+            accept=".doc,.pdf,.docx"
+            style={{ marginBottom: 8 }}
+            onChange={e => setDocUpload({ ...docUpload, filename: e.target.files[0]?.name || "" })}
+          />
+          <textarea
+            placeholder="Fill sample affidavit here or paste text"
+            style={{ width: "100%", minHeight: 52, borderRadius: 7, border: "1.1px solid #adbadc", marginBottom: 7, padding: 8 }}
+            value={docUpload.filled}
+            onChange={e => setDocUpload({ ...docUpload, filled: e.target.value })}
+            maxLength={800}
+          ></textarea>
+          <button className="btn" style={{ background: COLORS.accent, color: COLORS.primary, fontWeight: 600, fontFamily: FONT_HEADING, borderRadius: 5, width: "100%" }}>
+            Upload/Fake Save
+          </button>
+          <div style={{ fontSize: "0.95rem", color: "#227", marginTop: 8, minHeight: 12 }}>
+            {docUpload.filename ? <span>Selected: {docUpload.filename}</span> : null}
+          </div>
+        </div>
+      </div>
+    </PlaceholderPage>
+  );
 }
+
+/**
+ * Case Tracker Page – Example entry + timeline/status tracker
+ */
+// PUBLIC_INTERFACE
 function CaseTrackerPage() {
-  return <PlaceholderPage heading="Case Tracker">{icons.case}</PlaceholderPage>;
+  // Static sample data for illustration
+  const sampleCase = {
+    name: "Family Land Dispute",
+    number: "DL-2021-0192923",
+    status: "Pending - Hearing Scheduled",
+    milestones: [
+      { label: "Case Filed", date: "2021-12-14" },
+      { label: "First Hearing", date: "2022-01-09" },
+      { label: "Respondent Replied", date: "2022-02-01" },
+      { label: "Next Hearing", date: "2024-06-21", isUpcoming: true }
+    ]
+  };
+
+  return (
+    <PlaceholderPage heading="Case Tracker">
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 530,
+          minHeight: 200,
+          background: "#fff",
+          borderRadius: 14,
+          boxShadow: COLORS.shadow,
+          padding: "21px 2vw 15px 2vw",
+          marginBottom: 24
+        }}
+      >
+        <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, marginBottom: 9, color: COLORS.primary, fontSize: "1.1rem" }}>
+          Case: {sampleCase.name}
+        </div>
+        <div style={{ color: "#547", fontWeight: 500, marginBottom: 6, fontSize: "1.05rem" }}>
+          Case No: {sampleCase.number}
+        </div>
+        <div style={{ marginBottom: 13 }}>
+          <span style={{
+            padding: "3px 13px",
+            borderRadius: 15,
+            background: sampleCase.status.includes("Pending") ? "#ffe5a0" : "#bff4b5",
+            color: "#5c4732",
+            fontWeight: 600,
+            fontSize: "0.99rem"
+          }}>{sampleCase.status}</span>
+        </div>
+        <div>
+          <div style={{ margin: "10px 0 7px", fontWeight: 600, color: "#2e355a" }}>Timeline</div>
+          <ol style={{ padding: "0 0 0 11px", marginBottom: 0 }}>
+            {sampleCase.milestones.map((m, idx) => (
+              <li
+                key={m.label}
+                style={{
+                  color: m.isUpcoming ? COLORS.accent : "#2d2e52",
+                  fontWeight: 600,
+                  marginBottom: 5,
+                  fontSize: "1.02rem"
+                }}
+              >
+                {m.label}
+                <span style={{ fontWeight: 500, color: "#555", marginLeft: 10, fontSize: "0.96rem" }}>
+                  {m.date}
+                </span>
+                {m.isUpcoming && <span style={{ marginLeft: 9, color: COLORS.primary, fontWeight: 800, fontSize: "0.93rem" }}>(Upcoming)</span>}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </PlaceholderPage>
+  );
 }
+
+/**
+ * Video Consultation – Mock calendar/booking widget
+ */
+// PUBLIC_INTERFACE
 function VideoConsultPage() {
-  return <PlaceholderPage heading="Video Consultation">{icons.video}</PlaceholderPage>;
+  // Fake calendar: array of time slots for a single day for demonstration
+  const sampleSlots = [
+    "09:00 AM", "10:30 AM", "12:00 PM", "02:30 PM", "04:00 PM", "05:30 PM", "07:00 PM"
+  ];
+
+  const [selected, setSelected] = useState(null);
+  const [booked, setBooked] = useState(false);
+
+  function handleBook() {
+    setBooked(true);
+    setTimeout(() => setBooked(false), 2300);
+  }
+
+  return (
+    <PlaceholderPage heading="Video Consultation">
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 400,
+          marginBottom: 22,
+          background: "#fff",
+          borderRadius: 12,
+          boxShadow: COLORS.shadow,
+          padding: "18px 2vw 27px"
+        }}
+      >
+        <div style={{ color: COLORS.primary, fontFamily: FONT_HEADING, fontWeight: 700, marginBottom: 15, fontSize: "1.15rem" }}>
+          Book a Time Slot
+        </div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 18 }}>
+          {sampleSlots.map((slot, idx) => (
+            <button
+              key={slot}
+              style={{
+                background: selected === idx ? COLORS.accent : COLORS.primary,
+                color: selected === idx ? COLORS.primary : "#fff",
+                border: `2.2px solid ${COLORS.accent}`,
+                borderRadius: 8,
+                padding: "10px 17px",
+                fontFamily: FONT_HEADING,
+                fontWeight: 700,
+                fontSize: "1.06rem",
+                cursor: "pointer",
+                boxShadow: "0 2px 7px #e2e3f3"
+              }}
+              onClick={() => setSelected(idx)}
+              aria-pressed={selected === idx}
+              disabled={booked}
+            >
+              {slot}
+            </button>
+          ))}
+        </div>
+        <button
+          className="btn"
+          style={{
+            background: COLORS.accent,
+            color: COLORS.primary,
+            width: "100%",
+            fontWeight: 700,
+            fontFamily: FONT_HEADING,
+            borderRadius: 8
+          }}
+          onClick={handleBook}
+          disabled={selected == null || booked}
+        >
+          {booked ? "Booked!" : "Book Consultation"}
+        </button>
+      </div>
+    </PlaceholderPage>
+  );
 }
+
+/**
+ * Know Your Rights – Educational sections/cards
+ */
+// PUBLIC_INTERFACE
 function KnowYourRightsPage() {
-  return <PlaceholderPage heading="Know Your Rights">{icons.rights}</PlaceholderPage>;
+  // Sample categories with mock rich descriptions
+  const rights = [
+    {
+      title: "Property Rights",
+      brief: "Understand your property buying, inheritance, and ownership rights.",
+      content: "Indian law protects your right to buy, inherit, and transfer property. Check land/flat titles before buying. Women have equal inheritance rights under the Hindu Succession Act. If encroached or illegally dispossessed, file a civil suit in relevant court."
+    },
+    {
+      title: "Marriage & Family Rights",
+      brief: "Your rights in marriage, divorce, domestic issues and inheritance.",
+      content: "Marriage registration protects your rights. In case of abuse, women can file FIRs under Domestic Violence Act. Mutual divorce is possible under Section 13B. Maintenance/child custody is legally protected."
+    },
+    {
+      title: "Cyber Law",
+      brief: "Safeguard your data, privacy, and online reputation.",
+      content: "Report online harassment/cyber fraud to the nearest cyber police. The IT Act 2000 protects digital transactions and privacy. Do not share OTPs or personal details with unknown parties."
+    }
+  ];
+
+  // Expand/collapse controller for demonstration
+  const [openIdx, setOpenIdx] = useState(-1);
+
+  return (
+    <PlaceholderPage heading="Know Your Rights">
+      <div style={{ width: "100%", maxWidth: 650, display: "flex", flexDirection: "column", gap: 18, marginBottom: 25 }}>
+        {rights.map((cat, i) => (
+          <section
+            key={cat.title}
+            style={{
+              background: "#fff",
+              borderRadius: 13,
+              boxShadow: COLORS.shadow,
+              padding: "18px 21px",
+              borderLeft: `7px solid ${COLORS.accent}`,
+              marginBottom: 0,
+              cursor: "pointer",
+              outline: openIdx === i ? `3px solid ${COLORS.accent}` : "none"
+            }}
+            onClick={() => setOpenIdx(openIdx === i ? -1 : i)}
+            tabIndex={0}
+            aria-expanded={openIdx === i}
+            onKeyDown={e => { if (e.key === "Enter" || e.key === " ") setOpenIdx(openIdx === i ? -1 : i); }}
+          >
+            <div style={{ color: COLORS.accent, fontFamily: FONT_HEADING, fontWeight: 800, fontSize: "1.08rem", marginBottom: 3 }}>
+              <span style={{ marginRight: 7 }}>{icons.rights}</span>
+              {cat.title}
+            </div>
+            <div style={{ color: "#3a4660", marginBottom: 6, fontWeight: 600 }}>{cat.brief}</div>
+            {openIdx === i &&
+              <div style={{ color: "#2b313c", fontSize: "1.02rem", marginTop: 5, lineHeight: 1.49 }}>
+                {cat.content}
+              </div>
+            }
+            <div style={{ marginTop: 8, color: COLORS.primary, fontWeight: 700, fontSize: "0.97rem" }}>
+              {openIdx === i ? "Hide details ▲" : "Show details ▼"}
+            </div>
+          </section>
+        ))}
+      </div>
+    </PlaceholderPage>
+  );
 }
+
+/**
+ * Q&A Forum Page – Sample Qs/As, input for new question
+ */
+// PUBLIC_INTERFACE
 function QaForumPage() {
-  return <PlaceholderPage heading="Q&A Forum">{icons.forum}</PlaceholderPage>;
+  // Sample QAs
+  const [qInput, setQInput] = useState("");
+  const [questions, setQuestions] = useState([
+    {
+      q: "Can my landlord evict me without notice?",
+      a: "No, as per Indian law, a written eviction notice is mandatory except in special cases."
+    },
+    {
+      q: "How can I file for mutual divorce?",
+      a: "File a joint petition under Section 13B of Hindu Marriage Act with both parties’ consent."
+    },
+    {
+      q: "My employer hasn't paid my salary. What can I do?",
+      a: "Send a legal notice; if unresolved, file a complaint in the labour court."
+    }
+  ]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!qInput.trim()) return;
+    setQuestions([{ q: qInput.trim(), a: "Awaiting lawyer response..." }, ...questions]);
+    setQInput("");
+  }
+
+  return (
+    <PlaceholderPage heading="Q&A Forum">
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 630,
+          marginBottom: 25,
+          background: "#fff",
+          borderRadius: 14,
+          boxShadow: COLORS.shadow,
+          padding: "19px 2vw"
+        }}
+      >
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "row", gap: 8, alignItems: "center", marginBottom: 13 }}
+        >
+          <input
+            type="text"
+            value={qInput}
+            onChange={e => setQInput(e.target.value)}
+            required
+            maxLength={180}
+            aria-label="Type your legal question (anonymous)"
+            placeholder="Type your question (anonymous)"
+            style={{
+              flex: 1,
+              border: "1px solid #607fc1",
+              borderRadius: 8,
+              padding: "9px 13px",
+              fontSize: "1.05rem",
+              fontFamily: FONT_BODY
+            }}
+          />
+          <button className="btn" style={{ background: COLORS.accent, color: COLORS.primary, fontWeight: 700, fontFamily: FONT_HEADING, borderRadius: 6 }}>
+            Ask
+          </button>
+        </form>
+        <div>
+          {questions.map((item, i) => (
+            <div
+              key={item.q + i}
+              style={{
+                marginBottom: 15,
+                background: "#f9f9fe",
+                borderRadius: 10,
+                padding: "12px 14px"
+              }}
+            >
+              <div style={{ fontWeight: 800, color: COLORS.primary, marginBottom: 3 }}>
+                Q: {item.q}
+              </div>
+              <div style={{ marginLeft: 0, color: "#222e", fontWeight: 600 }}>
+                <span style={{ color: COLORS.accent, fontWeight: 800 }}>A:&nbsp;</span>{item.a}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </PlaceholderPage>
+  );
 }
 
 // --- HERO HEADER FOR HOME ---
