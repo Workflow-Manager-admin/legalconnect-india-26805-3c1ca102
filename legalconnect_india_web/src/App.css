@@ -210,8 +210,11 @@ body {
 @media (max-width: 800px) {
   .main-horizontal-features {
     gap: 10px;
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row !important;
+    align-items: center;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    white-space: nowrap;
   }
   .main-header-title {
     font-size: clamp(1.9rem, 5.2vw, 2rem);
