@@ -880,52 +880,106 @@ function App() {
             <span style={{ fontSize: "2.2rem", verticalAlign: "middle", marginRight: 8 }}>⚖️</span>
             LegalConnect <span style={{ color: COLORS.accent, fontWeight: 900 }}>India</span>
           </div>
-          {/* User icon (sign in) absolutely top right, accessible */}
-          <button
-            onClick={() => setSignModal(true)}
-            className="account-icon-btn"
-            aria-label={signedName ? "Account details" : "Sign In"}
+          {/* User icons panel: Sign In & Sign Up, visually prominent */}
+          <div
             style={{
               position: "absolute",
               right: 0,
               top: "50%",
               transform: "translateY(-50%)",
-              background: "none",
-              border: "none",
-              padding: "7px 12px",
-              marginRight: 12,
-              fontSize: 0,
-              cursor: "pointer",
-              outline: "none"
-            }}
-            tabIndex={0}
-            onKeyDown={e => {
-              if (e.key === "Enter" || e.key === " ") {
-                setSignModal(true);
-              }
+              display: "flex",
+              alignItems: "center",
+              gap: 17,
+              marginRight: 16
             }}
           >
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 26,
-                color: COLORS.accent,
-                borderRadius: "50%",
-                background: "rgba(255,255,255,0.07)",
-                width: 38,
-                height: 38,
-                boxShadow: COLORS.shadow,
-                transition: "box-shadow .14s, background .14s"
+            {/* Sign Up: to left of sign in */}
+            <button
+              className="account-icon-btn sign-up-btn"
+              tabIndex={0}
+              aria-label="Sign Up"
+              onClick={() => { /* Placeholder handler */ alert("Sign up clicked!"); }}
+              onKeyDown={e => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  alert("Sign up clicked!");
+                }
               }}
-              tabIndex={-1}
-              aria-hidden="true"
+              style={{
+                // keep style override to ensure correct alignment with sibling
+                margin: 0,
+                fontSize: 0
+              }}
             >
-              <span style={{ fontSize: 22, marginTop: 1 }}>{'👤'}</span>
-            </span>
-            <span className="sr-only">{signedName ? "Your Account" : "Sign In"}</span>
-          </button>
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 29,
+                  color: "#FFD700", // gold for sign-up
+                  borderRadius: "50%",
+                  background: "#1A237E", // deep navy circle
+                  width: 48,
+                  height: 48,
+                  boxShadow: "0 2px 14px 0 rgba(13,27,42,.13)",
+                  border: "2.5px solid #FFD700",
+                  transition: "box-shadow .14s, background .14s"
+                }}
+                tabIndex={-1}
+                aria-hidden="true"
+              >
+                {/* SVG user-plus icon as sign up, fallback to emoji */}
+                <svg width="27" height="27" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="11" cy="11" r="10" fill="none"/>
+                  <path d="M11 12.5c2.49 0 5 .9 5 2.19v1a.81.81 0 0 1-.81.81H6.81A.81.81 0 0 1 6 15.69v-1C6 13.4 8.51 12.5 11 12.5zm0-1.59a2.59 2.59 0 1 0 0-5.18 2.59 2.59 0 0 0 0 5.18zm5.85-1h-1.1v-1.1a.75.75 0 0 0-1.5 0v1.1h-1.1a.75.75 0 0 0 0 1.5h1.1v1.1a.75.75 0 0 0 1.5 0v-1.1h1.1a.75.75 0 0 0 0-1.5z" fill="#FFD700"/>
+                </svg>
+              </span>
+              <span className="sr-only">Sign Up</span>
+            </button>
+            {/* Sign In icon */}
+            <button
+              onClick={() => setSignModal(true)}
+              className="account-icon-btn sign-in-btn"
+              aria-label={signedName ? "Account details" : "Sign In"}
+              style={{
+                margin: 0,
+                fontSize: 0
+              }}
+              tabIndex={0}
+              onKeyDown={e => {
+                if (e.key === "Enter" || e.key === " ") {
+                  setSignModal(true);
+                }
+              }}
+            >
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 29,
+                  color: "#1A237E", // navy for sign-in
+                  borderRadius: "50%",
+                  background: "#FFD700", // gold circle
+                  width: 48,
+                  height: 48,
+                  boxShadow: "0 2px 14px 0 rgba(13,27,42,.13)",
+                  border: "2.5px solid #1A237E",
+                  transition: "box-shadow .14s, background .14s"
+                }}
+                tabIndex={-1}
+                aria-hidden="true"
+              >
+                {/* SVG user icon (classic/solid) */}
+                <svg width="25" height="25" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="11" cy="11" r="10" fill="none"/>
+                  <path d="M11 12.5c2.49 0 5 .9 5 2.19v1a.81.81 0 0 1-.81.81H6.81A.81.81 0 0 1 6 15.69v-1C6 13.4 8.51 12.5 11 12.5zm0-1.59a2.59 2.59 0 1 0 0-5.18 2.59 2.59 0 0 0 0 5.18z" fill="#1A237E"/>
+                </svg>
+              </span>
+              <span className="sr-only">{signedName ? "Your Account" : "Sign In"}</span>
+            </button>
+          </div>
         </div>
 
         <NavigationBar />
